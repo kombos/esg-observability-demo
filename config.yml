@@ -8,15 +8,20 @@ accounts:
   coins:
   - 20000token
   - 200000000stake
-  mnemonic: canal pipe license style master below advance repeat busy buyer chase model
-client:
-  openapi:
-    path: docs/static/openapi.yml
+  mnemonic: canal pipe license style master below advance repeat busy buyer chase
+    model
 faucet:
   name: bob
   coins:
   - 5token
   - 100000stake
+client:
+  typescript:
+    path: ts-client
+  hooks:
+    path: react/src/hooks
+  openapi:
+    path: docs/static/openapi.yml
 validators:
 - name: alice
   bonded: 100000000stake
