@@ -1,0 +1,7 @@
+syntax = "proto3";
+package esgobservabilitydemo.esgobservabilitydemo;
+
+option go_package = "esg-observability-demo/x/esgobservabilitydemo/types";
+
+// Msg defines the Msg service.
+service Msg {}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+package esgobservabilitydemo.esgobservabilitydemo;
+
+import "gogoproto/gogo.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/params.proto";
+
+option go_package = "esg-observability-demo/x/esgobservabilitydemo/types";
+
+// GenesisState defines the esgobservabilitydemo module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}
