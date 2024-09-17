@@ -4,10 +4,11 @@ accounts:
   coins:
   - 20000token
   - 200000000stake
-- name: bob
+- name: alice
   coins:
-  - 10000token
-  - 100000000stake
+  - 20000token
+  - 200000000stake
+  mnemonic: canal pipe license style master below advance repeat busy buyer chase model
 client:
   openapi:
     path: docs/static/openapi.yml
