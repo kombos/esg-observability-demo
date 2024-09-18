@@ -4,12 +4,15 @@ accounts:
   coins:
   - 20000token
   - 200000000stake
-- name: alice
+- name: bob
+  coins:
+  - 10000token
+  - 100000000stake
+- name: observer
   coins:
   - 20000token
   - 200000000stake
-  mnemonic: canal pipe license style master below advance repeat busy buyer chase
-    model
+  mnemonic: canal pipe license style master below advance repeat busy buyer chase model
 faucet:
   name: bob
   coins:
