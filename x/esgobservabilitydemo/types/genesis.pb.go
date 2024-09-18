@@ -25,7 +25,15 @@ const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // GenesisState defines the esgobservabilitydemo module's genesis state.
 type GenesisState struct {
-	Params Params `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
+	Params                     Params                  `protobuf:"bytes,1,opt,name=params,proto3" json:"params"`
+	RawMaterialExtractionList  []RawMaterialExtraction `protobuf:"bytes,2,rep,name=rawMaterialExtractionList,proto3" json:"rawMaterialExtractionList"`
+	RawMaterialExtractionCount uint64                  `protobuf:"varint,3,opt,name=rawMaterialExtractionCount,proto3" json:"rawMaterialExtractionCount,omitempty"`
+	ManufacturingList          []Manufacturing         `protobuf:"bytes,4,rep,name=manufacturingList,proto3" json:"manufacturingList"`
+	ManufacturingCount         uint64                  `protobuf:"varint,5,opt,name=manufacturingCount,proto3" json:"manufacturingCount,omitempty"`
+	TransportationList         []Transportation        `protobuf:"bytes,6,rep,name=transportationList,proto3" json:"transportationList"`
+	TransportationCount        uint64                  `protobuf:"varint,7,opt,name=transportationCount,proto3" json:"transportationCount,omitempty"`
+	MaterialProcessingList     []MaterialProcessing    `protobuf:"bytes,8,rep,name=materialProcessingList,proto3" json:"materialProcessingList"`
+	MaterialProcessingCount    uint64                  `protobuf:"varint,9,opt,name=materialProcessingCount,proto3" json:"materialProcessingCount,omitempty"`
 }
 
 func (m *GenesisState) Reset()         { *m = GenesisState{} }
@@ -68,6 +76,62 @@ func (m *GenesisState) GetParams() Params {
 	return Params{}
 }
 
+func (m *GenesisState) GetRawMaterialExtractionList() []RawMaterialExtraction {
+	if m != nil {
+		return m.RawMaterialExtractionList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetRawMaterialExtractionCount() uint64 {
+	if m != nil {
+		return m.RawMaterialExtractionCount
+	}
+	return 0
+}
+
+func (m *GenesisState) GetManufacturingList() []Manufacturing {
+	if m != nil {
+		return m.ManufacturingList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetManufacturingCount() uint64 {
+	if m != nil {
+		return m.ManufacturingCount
+	}
+	return 0
+}
+
+func (m *GenesisState) GetTransportationList() []Transportation {
+	if m != nil {
+		return m.TransportationList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetTransportationCount() uint64 {
+	if m != nil {
+		return m.TransportationCount
+	}
+	return 0
+}
+
+func (m *GenesisState) GetMaterialProcessingList() []MaterialProcessing {
+	if m != nil {
+		return m.MaterialProcessingList
+	}
+	return nil
+}
+
+func (m *GenesisState) GetMaterialProcessingCount() uint64 {
+	if m != nil {
+		return m.MaterialProcessingCount
+	}
+	return 0
+}
+
 func init() {
 	proto.RegisterType((*GenesisState)(nil), "esgobservabilitydemo.esgobservabilitydemo.GenesisState")
 }
@@ -77,19 +141,35 @@ func init() {
 }
 
 var fileDescriptor_d21029067b76f87c = []byte{
-	// 190 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0x32, 0x4f, 0x2d, 0x4e, 0xcf,
-	0x4f, 0x2a, 0x4e, 0x2d, 0x2a, 0x4b, 0x4c, 0xca, 0xcc, 0xc9, 0x2c, 0xa9, 0x4c, 0x49, 0xcd, 0xcd,
-	0xd7, 0xc7, 0x2a, 0x98, 0x9e, 0x9a, 0x97, 0x5a, 0x9c, 0x59, 0xac, 0x57, 0x50, 0x94, 0x5f, 0x92,
-	0x2f, 0xa4, 0x89, 0x4d, 0x8d, 0x1e, 0x36, 0x41, 0x29, 0x91, 0xf4, 0xfc, 0xf4, 0x7c, 0xb0, 0x2e,
-	0x7d, 0x10, 0x0b, 0x62, 0x80, 0x94, 0x19, 0xf1, 0x36, 0x17, 0x24, 0x16, 0x25, 0xe6, 0x42, 0x2d,
-	0x56, 0x8a, 0xe7, 0xe2, 0x71, 0x87, 0xb8, 0x24, 0xb8, 0x24, 0xb1, 0x24, 0x55, 0xc8, 0x9f, 0x8b,
-	0x0d, 0x22, 0x2f, 0xc1, 0xa8, 0xc0, 0xa8, 0xc1, 0x6d, 0x64, 0xa8, 0x47, 0xb4, 0xcb, 0xf4, 0x02,
-	0xc0, 0x1a, 0x9d, 0x58, 0x4e, 0xdc, 0x93, 0x67, 0x08, 0x82, 0x1a, 0xe3, 0xe4, 0x7b, 0xe2, 0x91,
-	0x1c, 0xe3, 0x85, 0x47, 0x72, 0x8c, 0x0f, 0x1e, 0xc9, 0x31, 0x4e, 0x78, 0x2c, 0xc7, 0x70, 0xe1,
-	0xb1, 0x1c, 0xc3, 0x8d, 0xc7, 0x72, 0x0c, 0x51, 0xc6, 0xa9, 0xc5, 0xe9, 0xba, 0x28, 0xa6, 0xe8,
-	0x82, 0xdd, 0x57, 0x81, 0xdd, 0xd9, 0x25, 0x95, 0x05, 0xa9, 0xc5, 0x49, 0x6c, 0x60, 0x67, 0x1b,
-	0x03, 0x02, 0x00, 0x00, 0xff, 0xff, 0xcd, 0x1d, 0xec, 0xd8, 0x6a, 0x01, 0x00, 0x00,
+	// 433 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x93, 0x4f, 0x4f, 0xe2, 0x40,
+	0x18, 0xc6, 0xdb, 0x85, 0xed, 0xee, 0x0e, 0x7b, 0xd9, 0xd9, 0xcd, 0x2e, 0xdb, 0x43, 0x25, 0x9e,
+	0xf0, 0x40, 0x51, 0x48, 0x14, 0x0f, 0x10, 0x03, 0x31, 0x5c, 0x24, 0x12, 0xf4, 0xe4, 0x85, 0x0c,
+	0x38, 0x36, 0x4d, 0x68, 0xa7, 0x99, 0x19, 0x04, 0xe2, 0xd5, 0x0f, 0xe0, 0x27, 0xf0, 0xf3, 0x70,
+	0xe4, 0xe8, 0xc9, 0x18, 0xf8, 0x22, 0xc6, 0xe9, 0x48, 0xa8, 0x4c, 0x4d, 0x7b, 0x6b, 0xde, 0x77,
+	0xde, 0xe7, 0xf9, 0xf5, 0xfd, 0x03, 0x8e, 0x30, 0x73, 0xc8, 0x80, 0x61, 0x7a, 0x8b, 0x06, 0xee,
+	0xc8, 0xe5, 0xb3, 0x6b, 0xec, 0x91, 0xb2, 0x32, 0xe8, 0x60, 0x1f, 0x33, 0x97, 0xd9, 0x01, 0x25,
+	0x9c, 0xc0, 0x3d, 0xd5, 0x1b, 0x5b, 0x15, 0x34, 0xff, 0x38, 0xc4, 0x21, 0xa2, 0xaa, 0xfc, 0xf6,
+	0x15, 0x0a, 0x98, 0x87, 0xc9, 0x9d, 0x03, 0x44, 0x91, 0x27, 0x8d, 0xcd, 0x76, 0xf2, 0x3a, 0x8a,
+	0x26, 0x7d, 0x0f, 0x71, 0x4c, 0x5d, 0x34, 0xea, 0xe3, 0x29, 0xa7, 0x68, 0xc8, 0x5d, 0xe2, 0x4b,
+	0xa1, 0x7a, 0x72, 0x21, 0x0f, 0xf9, 0xe3, 0x1b, 0x34, 0xe4, 0x63, 0xea, 0xfa, 0x8e, 0x2c, 0x6f,
+	0x24, 0x2f, 0xe7, 0x14, 0xf9, 0x2c, 0x20, 0x94, 0xa3, 0x0d, 0xfb, 0x56, 0x1a, 0x7b, 0xf9, 0x0f,
+	0x01, 0x25, 0x43, 0xcc, 0xd8, 0x1a, 0x62, 0xf7, 0xd1, 0x00, 0x3f, 0xdb, 0xe1, 0x5c, 0x2e, 0x38,
+	0xe2, 0x18, 0x9e, 0x03, 0x23, 0xec, 0x56, 0x5e, 0x2f, 0xe8, 0xc5, 0x5c, 0xe5, 0xc0, 0x4e, 0x3c,
+	0x27, 0xbb, 0x2b, 0x0a, 0x9b, 0xd9, 0xf9, 0xf3, 0x8e, 0xd6, 0x93, 0x32, 0xf0, 0x5e, 0x07, 0xff,
+	0x29, 0x9a, 0x74, 0x24, 0xc2, 0xe9, 0xba, 0x8b, 0x67, 0x2e, 0xe3, 0xf9, 0x2f, 0x85, 0x4c, 0x31,
+	0x57, 0x39, 0x49, 0x61, 0xd2, 0x53, 0x69, 0x49, 0xcf, 0x78, 0x23, 0xd8, 0x00, 0xa6, 0x32, 0xd9,
+	0x22, 0x63, 0x9f, 0xe7, 0x33, 0x05, 0xbd, 0x98, 0xed, 0x7d, 0xf2, 0x02, 0x8e, 0xc0, 0xaf, 0xc8,
+	0x10, 0x05, 0x7d, 0x56, 0xd0, 0xd7, 0x52, 0xd0, 0x77, 0x36, 0x35, 0x24, 0xf5, 0xb6, 0x30, 0xb4,
+	0x01, 0x8c, 0x04, 0x43, 0xca, 0xaf, 0x82, 0x52, 0x91, 0x81, 0x04, 0xc0, 0xe8, 0x8e, 0x08, 0x3c,
+	0x43, 0xe0, 0x1d, 0xa7, 0xc0, 0xbb, 0x8c, 0x88, 0x48, 0x3e, 0x85, 0x34, 0xdc, 0x07, 0xbf, 0xa3,
+	0xd1, 0x90, 0xf0, 0x9b, 0x20, 0x54, 0xa5, 0xe0, 0x1d, 0xf8, 0xfb, 0xbe, 0x86, 0xdd, 0xf5, 0x16,
+	0x0a, 0xcc, 0xef, 0x02, 0xb3, 0x9e, 0xaa, 0x8b, 0x1f, 0x85, 0x24, 0x6a, 0x8c, 0x05, 0xac, 0x81,
+	0x7f, 0xdb, 0x99, 0x10, 0xf9, 0x87, 0x40, 0x8e, 0x4b, 0x37, 0x3b, 0xf3, 0xa5, 0xa5, 0x2f, 0x96,
+	0x96, 0xfe, 0xb2, 0xb4, 0xf4, 0x87, 0x95, 0xa5, 0x2d, 0x56, 0x96, 0xf6, 0xb4, 0xb2, 0xb4, 0xab,
+	0x2a, 0x66, 0x4e, 0x29, 0xc2, 0x56, 0x12, 0xc7, 0x36, 0x8d, 0xb9, 0xe1, 0x59, 0x80, 0xd9, 0xc0,
+	0x10, 0x67, 0x57, 0x7d, 0x0d, 0x00, 0x00, 0xff, 0xff, 0xc7, 0xcf, 0x90, 0x74, 0x37, 0x05, 0x00,
+	0x00,
 }
 
 func (m *GenesisState) Marshal() (dAtA []byte, err error) {
@@ -112,6 +192,82 @@ func (m *GenesisState) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.MaterialProcessingCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.MaterialProcessingCount))
+		i--
+		dAtA[i] = 0x48
+	}
+	if len(m.MaterialProcessingList) > 0 {
+		for iNdEx := len(m.MaterialProcessingList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.MaterialProcessingList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x42
+		}
+	}
+	if m.TransportationCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.TransportationCount))
+		i--
+		dAtA[i] = 0x38
+	}
+	if len(m.TransportationList) > 0 {
+		for iNdEx := len(m.TransportationList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.TransportationList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x32
+		}
+	}
+	if m.ManufacturingCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.ManufacturingCount))
+		i--
+		dAtA[i] = 0x28
+	}
+	if len(m.ManufacturingList) > 0 {
+		for iNdEx := len(m.ManufacturingList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.ManufacturingList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x22
+		}
+	}
+	if m.RawMaterialExtractionCount != 0 {
+		i = encodeVarintGenesis(dAtA, i, uint64(m.RawMaterialExtractionCount))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.RawMaterialExtractionList) > 0 {
+		for iNdEx := len(m.RawMaterialExtractionList) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.RawMaterialExtractionList[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintGenesis(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x12
+		}
+	}
 	{
 		size, err := m.Params.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
@@ -144,6 +300,42 @@ func (m *GenesisState) Size() (n int) {
 	_ = l
 	l = m.Params.Size()
 	n += 1 + l + sovGenesis(uint64(l))
+	if len(m.RawMaterialExtractionList) > 0 {
+		for _, e := range m.RawMaterialExtractionList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.RawMaterialExtractionCount != 0 {
+		n += 1 + sovGenesis(uint64(m.RawMaterialExtractionCount))
+	}
+	if len(m.ManufacturingList) > 0 {
+		for _, e := range m.ManufacturingList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.ManufacturingCount != 0 {
+		n += 1 + sovGenesis(uint64(m.ManufacturingCount))
+	}
+	if len(m.TransportationList) > 0 {
+		for _, e := range m.TransportationList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.TransportationCount != 0 {
+		n += 1 + sovGenesis(uint64(m.TransportationCount))
+	}
+	if len(m.MaterialProcessingList) > 0 {
+		for _, e := range m.MaterialProcessingList {
+			l = e.Size()
+			n += 1 + l + sovGenesis(uint64(l))
+		}
+	}
+	if m.MaterialProcessingCount != 0 {
+		n += 1 + sovGenesis(uint64(m.MaterialProcessingCount))
+	}
 	return n
 }
 
@@ -215,6 +407,218 @@ func (m *GenesisState) Unmarshal(dAtA []byte) error {
 				return err
 			}
 			iNdEx = postIndex
+		case 2:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RawMaterialExtractionList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.RawMaterialExtractionList = append(m.RawMaterialExtractionList, RawMaterialExtraction{})
+			if err := m.RawMaterialExtractionList[len(m.RawMaterialExtractionList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 3:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RawMaterialExtractionCount", wireType)
+			}
+			m.RawMaterialExtractionCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.RawMaterialExtractionCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 4:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ManufacturingList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.ManufacturingList = append(m.ManufacturingList, Manufacturing{})
+			if err := m.ManufacturingList[len(m.ManufacturingList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 5:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field ManufacturingCount", wireType)
+			}
+			m.ManufacturingCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.ManufacturingCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TransportationList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.TransportationList = append(m.TransportationList, Transportation{})
+			if err := m.TransportationList[len(m.TransportationList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 7:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field TransportationCount", wireType)
+			}
+			m.TransportationCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.TransportationCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+		case 8:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MaterialProcessingList", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthGenesis
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.MaterialProcessingList = append(m.MaterialProcessingList, MaterialProcessing{})
+			if err := m.MaterialProcessingList[len(m.MaterialProcessingList)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		case 9:
+			if wireType != 0 {
+				return fmt.Errorf("proto: wrong wireType = %d for field MaterialProcessingCount", wireType)
+			}
+			m.MaterialProcessingCount = 0
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowGenesis
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				m.MaterialProcessingCount |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
 		default:
 			iNdEx = preIndex
 			skippy, err := skipGenesis(dAtA[iNdEx:])

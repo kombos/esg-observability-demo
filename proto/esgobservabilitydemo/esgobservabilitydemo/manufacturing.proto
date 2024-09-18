@@ -1,0 +1,12 @@
+syntax = "proto3";
+package esgobservabilitydemo.esgobservabilitydemo;
+
+option go_package = "esg-observability-demo/x/esgobservabilitydemo/types";
+
+message Manufacturing {
+  uint64 id = 1;
+  string componentType = 2; 
+  string waterUse = 3; 
+  string emissions = 4; 
+  string creator = 5;
+}
