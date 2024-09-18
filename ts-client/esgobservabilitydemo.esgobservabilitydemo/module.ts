@@ -7,18 +7,18 @@ import { msgTypes } from './registry';
 import { IgniteClient } from "../client"
 import { MissingWalletError } from "../helpers"
 import { Api } from "./rest";
-import { MsgCreateTransportation } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
-import { MsgDeleteRawMaterialExtraction } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
-import { MsgDeleteManufacturing } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
+import { MsgUpdateManufacturing } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
 import { MsgDeleteTransportation } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
 import { MsgUpdateMaterialProcessing } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
+import { MsgUpdateRawMaterialExtraction } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
+import { MsgDeleteRawMaterialExtraction } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
+import { MsgUpdateTransportation } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
 import { MsgCreateManufacturing } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
-import { MsgUpdateManufacturing } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
+import { MsgDeleteManufacturing } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
 import { MsgDeleteMaterialProcessing } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
 import { MsgCreateRawMaterialExtraction } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
+import { MsgCreateTransportation } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
 import { MsgCreateMaterialProcessing } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
-import { MsgUpdateTransportation } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
-import { MsgUpdateRawMaterialExtraction } from "./types/esgobservabilitydemo/esgobservabilitydemo/tx";
 
 import { Manufacturing as typeManufacturing} from "./types"
 import { MaterialProcessing as typeMaterialProcessing} from "./types"
@@ -26,22 +26,10 @@ import { Params as typeParams} from "./types"
 import { RawMaterialExtraction as typeRawMaterialExtraction} from "./types"
 import { Transportation as typeTransportation} from "./types"
 
-export { MsgCreateTransportation, MsgDeleteRawMaterialExtraction, MsgDeleteManufacturing, MsgDeleteTransportation, MsgUpdateMaterialProcessing, MsgCreateManufacturing, MsgUpdateManufacturing, MsgDeleteMaterialProcessing, MsgCreateRawMaterialExtraction, MsgCreateMaterialProcessing, MsgUpdateTransportation, MsgUpdateRawMaterialExtraction };
+export { MsgUpdateManufacturing, MsgDeleteTransportation, MsgUpdateMaterialProcessing, MsgUpdateRawMaterialExtraction, MsgDeleteRawMaterialExtraction, MsgUpdateTransportation, MsgCreateManufacturing, MsgDeleteManufacturing, MsgDeleteMaterialProcessing, MsgCreateRawMaterialExtraction, MsgCreateTransportation, MsgCreateMaterialProcessing };
 
-type sendMsgCreateTransportationParams = {
-  value: MsgCreateTransportation,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgDeleteRawMaterialExtractionParams = {
-  value: MsgDeleteRawMaterialExtraction,
-  fee?: StdFee,
-  memo?: string
-};
-
-type sendMsgDeleteManufacturingParams = {
-  value: MsgDeleteManufacturing,
+type sendMsgUpdateManufacturingParams = {
+  value: MsgUpdateManufacturing,
   fee?: StdFee,
   memo?: string
 };
@@ -58,14 +46,32 @@ type sendMsgUpdateMaterialProcessingParams = {
   memo?: string
 };
 
+type sendMsgUpdateRawMaterialExtractionParams = {
+  value: MsgUpdateRawMaterialExtraction,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgDeleteRawMaterialExtractionParams = {
+  value: MsgDeleteRawMaterialExtraction,
+  fee?: StdFee,
+  memo?: string
+};
+
+type sendMsgUpdateTransportationParams = {
+  value: MsgUpdateTransportation,
+  fee?: StdFee,
+  memo?: string
+};
+
 type sendMsgCreateManufacturingParams = {
   value: MsgCreateManufacturing,
   fee?: StdFee,
   memo?: string
 };
 
-type sendMsgUpdateManufacturingParams = {
-  value: MsgUpdateManufacturing,
+type sendMsgDeleteManufacturingParams = {
+  value: MsgDeleteManufacturing,
   fee?: StdFee,
   memo?: string
 };
@@ -82,35 +88,21 @@ type sendMsgCreateRawMaterialExtractionParams = {
   memo?: string
 };
 
+type sendMsgCreateTransportationParams = {
+  value: MsgCreateTransportation,
+  fee?: StdFee,
+  memo?: string
+};
+
 type sendMsgCreateMaterialProcessingParams = {
   value: MsgCreateMaterialProcessing,
   fee?: StdFee,
   memo?: string
 };
 
-type sendMsgUpdateTransportationParams = {
-  value: MsgUpdateTransportation,
-  fee?: StdFee,
-  memo?: string
-};
 
-type sendMsgUpdateRawMaterialExtractionParams = {
-  value: MsgUpdateRawMaterialExtraction,
-  fee?: StdFee,
-  memo?: string
-};
-
-
-type msgCreateTransportationParams = {
-  value: MsgCreateTransportation,
-};
-
-type msgDeleteRawMaterialExtractionParams = {
-  value: MsgDeleteRawMaterialExtraction,
-};
-
-type msgDeleteManufacturingParams = {
-  value: MsgDeleteManufacturing,
+type msgUpdateManufacturingParams = {
+  value: MsgUpdateManufacturing,
 };
 
 type msgDeleteTransportationParams = {
@@ -121,12 +113,24 @@ type msgUpdateMaterialProcessingParams = {
   value: MsgUpdateMaterialProcessing,
 };
 
+type msgUpdateRawMaterialExtractionParams = {
+  value: MsgUpdateRawMaterialExtraction,
+};
+
+type msgDeleteRawMaterialExtractionParams = {
+  value: MsgDeleteRawMaterialExtraction,
+};
+
+type msgUpdateTransportationParams = {
+  value: MsgUpdateTransportation,
+};
+
 type msgCreateManufacturingParams = {
   value: MsgCreateManufacturing,
 };
 
-type msgUpdateManufacturingParams = {
-  value: MsgUpdateManufacturing,
+type msgDeleteManufacturingParams = {
+  value: MsgDeleteManufacturing,
 };
 
 type msgDeleteMaterialProcessingParams = {
@@ -137,16 +141,12 @@ type msgCreateRawMaterialExtractionParams = {
   value: MsgCreateRawMaterialExtraction,
 };
 
+type msgCreateTransportationParams = {
+  value: MsgCreateTransportation,
+};
+
 type msgCreateMaterialProcessingParams = {
   value: MsgCreateMaterialProcessing,
-};
-
-type msgUpdateTransportationParams = {
-  value: MsgUpdateTransportation,
-};
-
-type msgUpdateRawMaterialExtractionParams = {
-  value: MsgUpdateRawMaterialExtraction,
 };
 
 
@@ -179,45 +179,17 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 
   return {
 		
-		async sendMsgCreateTransportation({ value, fee, memo }: sendMsgCreateTransportationParams): Promise<DeliverTxResponse> {
+		async sendMsgUpdateManufacturing({ value, fee, memo }: sendMsgUpdateManufacturingParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgCreateTransportation: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgUpdateManufacturing: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgCreateTransportation({ value: MsgCreateTransportation.fromPartial(value) })
+				let msg = this.msgUpdateManufacturing({ value: MsgUpdateManufacturing.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgCreateTransportation: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgDeleteRawMaterialExtraction({ value, fee, memo }: sendMsgDeleteRawMaterialExtractionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgDeleteRawMaterialExtraction: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgDeleteRawMaterialExtraction({ value: MsgDeleteRawMaterialExtraction.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgDeleteRawMaterialExtraction: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		async sendMsgDeleteManufacturing({ value, fee, memo }: sendMsgDeleteManufacturingParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgDeleteManufacturing: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgDeleteManufacturing({ value: MsgDeleteManufacturing.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgDeleteManufacturing: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgUpdateManufacturing: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -249,6 +221,48 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		async sendMsgUpdateRawMaterialExtraction({ value, fee, memo }: sendMsgUpdateRawMaterialExtractionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpdateRawMaterialExtraction: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpdateRawMaterialExtraction({ value: MsgUpdateRawMaterialExtraction.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgUpdateRawMaterialExtraction: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgDeleteRawMaterialExtraction({ value, fee, memo }: sendMsgDeleteRawMaterialExtractionParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgDeleteRawMaterialExtraction: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgDeleteRawMaterialExtraction({ value: MsgDeleteRawMaterialExtraction.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgDeleteRawMaterialExtraction: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
+		async sendMsgUpdateTransportation({ value, fee, memo }: sendMsgUpdateTransportationParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgUpdateTransportation: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgUpdateTransportation({ value: MsgUpdateTransportation.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgUpdateTransportation: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		async sendMsgCreateManufacturing({ value, fee, memo }: sendMsgCreateManufacturingParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgCreateManufacturing: Unable to sign Tx. Signer is not present.')
@@ -263,17 +277,17 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgUpdateManufacturing({ value, fee, memo }: sendMsgUpdateManufacturingParams): Promise<DeliverTxResponse> {
+		async sendMsgDeleteManufacturing({ value, fee, memo }: sendMsgDeleteManufacturingParams): Promise<DeliverTxResponse> {
 			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateManufacturing: Unable to sign Tx. Signer is not present.')
+					throw new Error('TxClient:sendMsgDeleteManufacturing: Unable to sign Tx. Signer is not present.')
 			}
 			try {			
 				const { address } = (await signer.getAccounts())[0]; 
 				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateManufacturing({ value: MsgUpdateManufacturing.fromPartial(value) })
+				let msg = this.msgDeleteManufacturing({ value: MsgDeleteManufacturing.fromPartial(value) })
 				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
 			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateManufacturing: Could not broadcast Tx: '+ e.message)
+				throw new Error('TxClient:sendMsgDeleteManufacturing: Could not broadcast Tx: '+ e.message)
 			}
 		},
 		
@@ -305,6 +319,20 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		async sendMsgCreateTransportation({ value, fee, memo }: sendMsgCreateTransportationParams): Promise<DeliverTxResponse> {
+			if (!signer) {
+					throw new Error('TxClient:sendMsgCreateTransportation: Unable to sign Tx. Signer is not present.')
+			}
+			try {			
+				const { address } = (await signer.getAccounts())[0]; 
+				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
+				let msg = this.msgCreateTransportation({ value: MsgCreateTransportation.fromPartial(value) })
+				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
+			} catch (e: any) {
+				throw new Error('TxClient:sendMsgCreateTransportation: Could not broadcast Tx: '+ e.message)
+			}
+		},
+		
 		async sendMsgCreateMaterialProcessing({ value, fee, memo }: sendMsgCreateMaterialProcessingParams): Promise<DeliverTxResponse> {
 			if (!signer) {
 					throw new Error('TxClient:sendMsgCreateMaterialProcessing: Unable to sign Tx. Signer is not present.')
@@ -319,56 +347,12 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		async sendMsgUpdateTransportation({ value, fee, memo }: sendMsgUpdateTransportationParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateTransportation: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateTransportation({ value: MsgUpdateTransportation.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateTransportation: Could not broadcast Tx: '+ e.message)
-			}
-		},
 		
-		async sendMsgUpdateRawMaterialExtraction({ value, fee, memo }: sendMsgUpdateRawMaterialExtractionParams): Promise<DeliverTxResponse> {
-			if (!signer) {
-					throw new Error('TxClient:sendMsgUpdateRawMaterialExtraction: Unable to sign Tx. Signer is not present.')
-			}
-			try {			
-				const { address } = (await signer.getAccounts())[0]; 
-				const signingClient = await SigningStargateClient.connectWithSigner(addr,signer,{registry, prefix});
-				let msg = this.msgUpdateRawMaterialExtraction({ value: MsgUpdateRawMaterialExtraction.fromPartial(value) })
-				return await signingClient.signAndBroadcast(address, [msg], fee ? fee : defaultFee, memo)
-			} catch (e: any) {
-				throw new Error('TxClient:sendMsgUpdateRawMaterialExtraction: Could not broadcast Tx: '+ e.message)
-			}
-		},
-		
-		
-		msgCreateTransportation({ value }: msgCreateTransportationParams): EncodeObject {
+		msgUpdateManufacturing({ value }: msgUpdateManufacturingParams): EncodeObject {
 			try {
-				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgCreateTransportation", value: MsgCreateTransportation.fromPartial( value ) }  
+				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgUpdateManufacturing", value: MsgUpdateManufacturing.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgCreateTransportation: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgDeleteRawMaterialExtraction({ value }: msgDeleteRawMaterialExtractionParams): EncodeObject {
-			try {
-				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgDeleteRawMaterialExtraction", value: MsgDeleteRawMaterialExtraction.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgDeleteRawMaterialExtraction: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgDeleteManufacturing({ value }: msgDeleteManufacturingParams): EncodeObject {
-			try {
-				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgDeleteManufacturing", value: MsgDeleteManufacturing.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgDeleteManufacturing: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgUpdateManufacturing: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -388,6 +372,30 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		msgUpdateRawMaterialExtraction({ value }: msgUpdateRawMaterialExtractionParams): EncodeObject {
+			try {
+				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgUpdateRawMaterialExtraction", value: MsgUpdateRawMaterialExtraction.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpdateRawMaterialExtraction: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgDeleteRawMaterialExtraction({ value }: msgDeleteRawMaterialExtractionParams): EncodeObject {
+			try {
+				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgDeleteRawMaterialExtraction", value: MsgDeleteRawMaterialExtraction.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgDeleteRawMaterialExtraction: Could not create message: ' + e.message)
+			}
+		},
+		
+		msgUpdateTransportation({ value }: msgUpdateTransportationParams): EncodeObject {
+			try {
+				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgUpdateTransportation", value: MsgUpdateTransportation.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgUpdateTransportation: Could not create message: ' + e.message)
+			}
+		},
+		
 		msgCreateManufacturing({ value }: msgCreateManufacturingParams): EncodeObject {
 			try {
 				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgCreateManufacturing", value: MsgCreateManufacturing.fromPartial( value ) }  
@@ -396,11 +404,11 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
-		msgUpdateManufacturing({ value }: msgUpdateManufacturingParams): EncodeObject {
+		msgDeleteManufacturing({ value }: msgDeleteManufacturingParams): EncodeObject {
 			try {
-				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgUpdateManufacturing", value: MsgUpdateManufacturing.fromPartial( value ) }  
+				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgDeleteManufacturing", value: MsgDeleteManufacturing.fromPartial( value ) }  
 			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateManufacturing: Could not create message: ' + e.message)
+				throw new Error('TxClient:MsgDeleteManufacturing: Could not create message: ' + e.message)
 			}
 		},
 		
@@ -420,27 +428,19 @@ export const txClient = ({ signer, prefix, addr }: TxClientOptions = { addr: "ht
 			}
 		},
 		
+		msgCreateTransportation({ value }: msgCreateTransportationParams): EncodeObject {
+			try {
+				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgCreateTransportation", value: MsgCreateTransportation.fromPartial( value ) }  
+			} catch (e: any) {
+				throw new Error('TxClient:MsgCreateTransportation: Could not create message: ' + e.message)
+			}
+		},
+		
 		msgCreateMaterialProcessing({ value }: msgCreateMaterialProcessingParams): EncodeObject {
 			try {
 				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgCreateMaterialProcessing", value: MsgCreateMaterialProcessing.fromPartial( value ) }  
 			} catch (e: any) {
 				throw new Error('TxClient:MsgCreateMaterialProcessing: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgUpdateTransportation({ value }: msgUpdateTransportationParams): EncodeObject {
-			try {
-				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgUpdateTransportation", value: MsgUpdateTransportation.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateTransportation: Could not create message: ' + e.message)
-			}
-		},
-		
-		msgUpdateRawMaterialExtraction({ value }: msgUpdateRawMaterialExtractionParams): EncodeObject {
-			try {
-				return { typeUrl: "/esgobservabilitydemo.esgobservabilitydemo.MsgUpdateRawMaterialExtraction", value: MsgUpdateRawMaterialExtraction.fromPartial( value ) }  
-			} catch (e: any) {
-				throw new Error('TxClient:MsgUpdateRawMaterialExtraction: Could not create message: ' + e.message)
 			}
 		},
 		
