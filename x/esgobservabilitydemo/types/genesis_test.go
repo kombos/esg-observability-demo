@@ -19,12 +19,152 @@ func TestGenesisState_Validate(t *testing.T) {
 			valid:    true,
 		},
 		{
-			desc:     "valid genesis state",
+			desc: "valid genesis state",
 			genState: &types.GenesisState{
 
+				RawMaterialExtractionList: []types.RawMaterialExtraction{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				RawMaterialExtractionCount: 2,
+				ManufacturingList: []types.Manufacturing{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				ManufacturingCount: 2,
+				TransportationList: []types.Transportation{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				TransportationCount: 2,
+				MaterialProcessingList: []types.MaterialProcessing{
+					{
+						Id: 0,
+					},
+					{
+						Id: 1,
+					},
+				},
+				MaterialProcessingCount: 2,
 				// this line is used by starport scaffolding # types/genesis/validField
 			},
 			valid: true,
+		},
+		{
+			desc: "duplicated rawMaterialExtraction",
+			genState: &types.GenesisState{
+				RawMaterialExtractionList: []types.RawMaterialExtraction{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid rawMaterialExtraction count",
+			genState: &types.GenesisState{
+				RawMaterialExtractionList: []types.RawMaterialExtraction{
+					{
+						Id: 1,
+					},
+				},
+				RawMaterialExtractionCount: 0,
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated manufacturing",
+			genState: &types.GenesisState{
+				ManufacturingList: []types.Manufacturing{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid manufacturing count",
+			genState: &types.GenesisState{
+				ManufacturingList: []types.Manufacturing{
+					{
+						Id: 1,
+					},
+				},
+				ManufacturingCount: 0,
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated transportation",
+			genState: &types.GenesisState{
+				TransportationList: []types.Transportation{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid transportation count",
+			genState: &types.GenesisState{
+				TransportationList: []types.Transportation{
+					{
+						Id: 1,
+					},
+				},
+				TransportationCount: 0,
+			},
+			valid: false,
+		},
+		{
+			desc: "duplicated materialProcessing",
+			genState: &types.GenesisState{
+				MaterialProcessingList: []types.MaterialProcessing{
+					{
+						Id: 0,
+					},
+					{
+						Id: 0,
+					},
+				},
+			},
+			valid: false,
+		},
+		{
+			desc: "invalid materialProcessing count",
+			genState: &types.GenesisState{
+				MaterialProcessingList: []types.MaterialProcessing{
+					{
+						Id: 1,
+					},
+				},
+				MaterialProcessingCount: 0,
+			},
+			valid: false,
 		},
 		// this line is used by starport scaffolding # types/genesis/testcase
 	}

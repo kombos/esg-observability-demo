@@ -2,16 +2,16 @@ import { createBrowserRouter, Outlet } from "react-router-dom";
 
 import IgntHeader from "../components/IgntHeader";
 import DataView from "../views/DataView";
-import PortfolioView from "../views/PortfolioView";
+import LcaPortal from "../views/LcaPortal";
 
 const items = [
   {
-    label: "Portfolio",
+    label: "LCARoadmap",
     to: "/",
   },
   {
-    label: "Data",
-    to: "/data",
+    label: "Traceability",
+    to: "/traceability",
   },
 ];
 const Layout = () => {
@@ -27,8 +27,8 @@ const router = createBrowserRouter([
     path: "/",
     element: <Layout />,
     children: [
-      { path: "/", element: <PortfolioView /> },
-      { path: "/data", element: <DataView /> },
+      { path: "/", element: <LcaPortal /> },
+      { path: "/traceability", element: <DataView /> },
     ],
   },
 ]);

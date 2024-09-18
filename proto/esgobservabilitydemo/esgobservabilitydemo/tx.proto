@@ -1,7 +1,138 @@
 syntax = "proto3";
+
 package esgobservabilitydemo.esgobservabilitydemo;
+
+import "esgobservabilitydemo/esgobservabilitydemo/raw_material_extraction.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/manufacturing.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/transportation.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/material_processing.proto";
 
 option go_package = "esg-observability-demo/x/esgobservabilitydemo/types";
 
 // Msg defines the Msg service.
-service Msg {}
+service Msg {
+  rpc CreateRawMaterialExtraction (MsgCreateRawMaterialExtraction) returns (MsgCreateRawMaterialExtractionResponse);
+  rpc UpdateRawMaterialExtraction (MsgUpdateRawMaterialExtraction) returns (MsgUpdateRawMaterialExtractionResponse);
+  rpc DeleteRawMaterialExtraction (MsgDeleteRawMaterialExtraction) returns (MsgDeleteRawMaterialExtractionResponse);
+  rpc CreateManufacturing         (MsgCreateManufacturing        ) returns (MsgCreateManufacturingResponse        );
+  rpc UpdateManufacturing         (MsgUpdateManufacturing        ) returns (MsgUpdateManufacturingResponse        );
+  rpc DeleteManufacturing         (MsgDeleteManufacturing        ) returns (MsgDeleteManufacturingResponse        );
+  rpc CreateTransportation        (MsgCreateTransportation       ) returns (MsgCreateTransportationResponse       );
+  rpc UpdateTransportation        (MsgUpdateTransportation       ) returns (MsgUpdateTransportationResponse       );
+  rpc DeleteTransportation        (MsgDeleteTransportation       ) returns (MsgDeleteTransportationResponse       );
+  rpc CreateMaterialProcessing    (MsgCreateMaterialProcessing   ) returns (MsgCreateMaterialProcessingResponse   );
+  rpc UpdateMaterialProcessing    (MsgUpdateMaterialProcessing   ) returns (MsgUpdateMaterialProcessingResponse   );
+  rpc DeleteMaterialProcessing    (MsgDeleteMaterialProcessing   ) returns (MsgDeleteMaterialProcessingResponse   );
+}
+message MsgCreateRawMaterialExtraction {
+  string creator      = 1;
+  string resourceType = 2;
+  string waterUse     = 3;
+  string emissions    = 4;
+}
+
+message MsgCreateRawMaterialExtractionResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateRawMaterialExtraction {
+  string creator      = 1;
+  uint64 id           = 2;
+  string resourceType = 3;
+  string waterUse     = 4;
+  string emissions    = 5;
+}
+
+message MsgUpdateRawMaterialExtractionResponse {}
+
+message MsgDeleteRawMaterialExtraction {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteRawMaterialExtractionResponse {}
+
+message MsgCreateManufacturing {
+  string creator       = 1;
+  string componentType = 2;
+  string waterUse      = 3;
+  string emissions     = 4;
+}
+
+message MsgCreateManufacturingResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateManufacturing {
+  string creator       = 1;
+  uint64 id            = 2;
+  string componentType = 3;
+  string waterUse      = 4;
+  string emissions     = 5;
+}
+
+message MsgUpdateManufacturingResponse {}
+
+message MsgDeleteManufacturing {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteManufacturingResponse {}
+
+message MsgCreateTransportation {
+  string creator            = 1;
+  string transportationType = 2;
+  string fuelUse            = 3;
+  string emissions          = 4;
+}
+
+message MsgCreateTransportationResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateTransportation {
+  string creator            = 1;
+  uint64 id                 = 2;
+  string transportationType = 3;
+  string fuelUse            = 4;
+  string emissions          = 5;
+}
+
+message MsgUpdateTransportationResponse {}
+
+message MsgDeleteTransportation {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteTransportationResponse {}
+
+message MsgCreateMaterialProcessing {
+  string creator      = 1;
+  string materialType = 2;
+  string waterUse     = 3;
+  string emissions    = 4;
+}
+
+message MsgCreateMaterialProcessingResponse {
+  uint64 id = 1;
+}
+
+message MsgUpdateMaterialProcessing {
+  string creator      = 1;
+  uint64 id           = 2;
+  string materialType = 3;
+  string waterUse     = 4;
+  string emissions    = 5;
+}
+
+message MsgUpdateMaterialProcessingResponse {}
+
+message MsgDeleteMaterialProcessing {
+  string creator = 1;
+  uint64 id      = 2;
+}
+
+message MsgDeleteMaterialProcessingResponse {}
+
