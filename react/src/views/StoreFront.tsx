@@ -174,8 +174,6 @@ export default function StoreFront() {
     }
   };
 
-  console.log("rawMaterialAll: ", rawMaterialAll);
-
   return (
     <div className="am-esg-storefront">
       <img src="/media/qr_bg.png" alt="dummy" />

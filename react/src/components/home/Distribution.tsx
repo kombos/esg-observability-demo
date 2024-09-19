@@ -1,22 +1,64 @@
 import React from "react";
 import { BsFillPuzzleFill } from "react-icons/bs";
+import { useClient } from "../../hooks/useClient";
+import { useAddressContext } from "../../def-hooks/addressContext";
 
 export default function Distribution() {
+  const lcaClient = useClient();
+  const creatorAddressObject = useAddressContext();
+  const lowestEmission = 100;
+  const highestEmission = 450;
+  const lowestFuelUse = 0;
+  const highestFuelUse = 1000;
+  const stakeholder = "cosmos1arfwns32lw99z2jhlyj8cgnjd7c06yf09y8l63";
+
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent default form submission
+
+    // check if the user is a proper stakeholder
+    if (creatorAddressObject?.address !== stakeholder) {
+      alert("The User is not Authorized as Designated Stakeholder");
+      return;
+    }
+    // generate random values for emission and water use
+    const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
+    const fuelUse = Math.random() * (highestFuelUse - lowestFuelUse) + lowestFuelUse;
+
+    // create transaction to create transportation data
+    try {
+      const tx_result = await lcaClient.EsgobservabilitydemoEsgobservabilitydemo.tx.sendMsgCreateTransportation({
+        value: {
+          creator: creatorAddressObject?.address,
+          emissions: randomEmission?.toString(),
+          transportationType: "Refined Silver",
+          fuelUse: fuelUse?.toString(),
+        },
+        fee: {
+          amount: [{ amount: "0", denom: "stake" }],
+          gas: "200000",
+        },
+        memo: "",
+      });
+      alert("Transaction Submitted. Wait for confirmation");
+    } catch (error) {
+      console.error("Error during handle submit: ", error);
+    }
+  };
   const DATA = {
     title: "Inventory Assessment",
     titleChip: (
       <>
-        <BsFillPuzzleFill /> Product/Service - Shirt, Medium Size
+        <BsFillPuzzleFill /> Product - Silver Ring
       </>
     ),
     processTitle: "Process",
-    processValue: "1b32feca67 - Cotton Fibre, organic ginning mass -0.9kg",
+    processValue: "5abe34df - Transportation of silver products via truck",
     metaData: {
       title: "Process Metadata",
       objects: [
         {
           title: "Product Category",
-          value: "Textile",
+          value: "Jewelry and Accessories",
         },
         {
           title: "Process Type",
@@ -41,45 +83,25 @@ export default function Distribution() {
       tableKeys: ["Resources", "Type", "Unit", "Amount", "Flow UUID", "Flow", "Method LCIA", "Characterization Factor"],
       objects: [
         {
-          Resources: "Cotton",
+          Resources: "Diesel",
           Type: "Input",
-          Unit: "kg",
-          Amount: "234",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "(3-(sec...benzene",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
+          Unit: "L",
+          Amount: 15,
+          "Flow UUID": "5f123a...7b9e",
+          Flow: "Diesel fuel consumption during transportation",
+          "Method LCIA": "Warming Potential (GWP)",
+          "Characterization Factor": "kg CO₂-equivalents per L"
         },
         {
-          Resources: "Silk",
+          Resources: "Truck Transport",
           Type: "Input",
-          Unit: "kg",
-          Amount: "35",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "graining silk",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
-        },
-        {
-          Resources: "Refined Cotton",
-          Type: "Output",
-          Unit: "kg",
-          Amount: "220",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "cotton...ating",
-          "Method LCIA": "Eutrophication",
-          "Characterization Factor": "AQUATIC_EUTROPHICATION",
-        },
-        {
-          Resources: "Crude Oil",
-          Type: "Output",
-          Unit: "Litre",
-          Amount: "45",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "cotton...cessing",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
-        },
+          Unit: "km",
+          Amount: 120,
+          "Flow UUID": "9d6afc...e7d3",
+          Flow: "Transportation of silver products to distributor",
+          "Method LCIA": "Warming Potential (GWP)",
+          "Characterization Factor": "kg CO₂-equivalents per km"
+        },        
       ],
     },
     emissions: {
@@ -87,34 +109,12 @@ export default function Distribution() {
       tableKeys: ["LCIAMethod_uuid EF3.1", "LCIAMethod_name", "LCIAMethod_type", "LCIAMethod_impactIndicator"],
       objects: [
         {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
+          "LCIAMethod_uuid EF3.1": "7cfdc1f...7ac8",
           LCIAMethod_name: "Climate change-Fossil",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
+          LCIAMethod_type: "Mid-Point-Indicator",
           LCIAMethod_impactIndicator: "Radiative forcing as Global Warming Potential (GWP100)",
         },
-        {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
-          LCIAMethod_name: "Ecotoxicity, freshwater",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
-          LCIAMethod_impactIndicator: "Comparative Toxic Unit for ecosystems (CTUe)",
-        },
-        {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
-          LCIAMethod_name: "EF-particulate matter",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
-          LCIAMethod_impactIndicator: "Impact on human health",
-        },
-        {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
-          LCIAMethod_name: "Resource use, minerals and metals",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
-          LCIAMethod_impactIndicator: "Abiotic resource depletion (ADP ultimate reserve)",
-        },
       ],
-    },
-    co_product: {
-      title: "Co Products",
-      products: ["Cotton Threads", "Silk Threads", "Cotton Dye"],
     },
   };
 
@@ -180,7 +180,7 @@ export default function Distribution() {
       <ul>{React.Children.toArray(DATA?.co_product?.products?.map((li) => <li>{li}</li>))}</ul>
 
       <div className="buttons">
-        <button>Submit</button>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );
