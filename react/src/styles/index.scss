@@ -333,10 +333,11 @@ input[type="search"]::-webkit-search-results-decoration {
           gap: 16px;
           & > .rating {
             & > .stars {
+              display: flex;
               & > span {
                 color: var(--am-esg-white-100);
                 &.active {
-                  color: var(--am-esg-black);
+                  color: var(--am-esg-green);
                 }
               }
             }
