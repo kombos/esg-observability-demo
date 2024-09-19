@@ -178,7 +178,7 @@ export default function StoreFront() {
     <div className="am-esg-storefront">
       <img src="/media/qr_bg.png" alt="dummy" />
       <Suspense fallback={"Loading..."}>
-        <div className="qr-code">
+        <div className="qr-code" role="button" onClick={() => window.open("/productQR", "_self")}>
           <QRCodeSVG width="100%" height="100%" value={"/productQR"} />
         </div>
       </Suspense>
