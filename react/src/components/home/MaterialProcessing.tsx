@@ -178,11 +178,7 @@ export default function MaterialProcessing() {
           LCIAMethod_impactIndicator: "Abiotic resource depletion (ADP ultimate reserve)",
         },
       ],
-    },
-    co_product: {
-      title: "Co Products",
-      products: ["Cotton Threads", "Silk Threads", "Cotton Dye"],
-    },
+    }
   };
 
   return (

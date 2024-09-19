@@ -160,10 +160,6 @@ export default function Manufacturing() {
         },
       ],
     },
-    co_product: {
-      title: "Co Products",
-      products: ["Refined Silver Pipe"],
-    },
   };
 
   return (

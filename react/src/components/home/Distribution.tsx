@@ -128,10 +128,6 @@ export default function Distribution() {
         },
       ],
     },
-    co_product: {
-      title: "Co Products",
-      products: ["Polished Silver Ring"],
-    },
   };
 
   return (

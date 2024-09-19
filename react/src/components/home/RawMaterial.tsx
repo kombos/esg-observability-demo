@@ -150,10 +150,6 @@ export default function RawMaterial() {
         },
       ],
     },
-    co_product: {
-      title: "Co Products",
-      products: ["Silver", "Copper"],
-    },
   };
 
   return (
