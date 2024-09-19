@@ -13,6 +13,11 @@ accounts:
   - 20000token
   - 200000000stake
   mnemonic: canal pipe license style master below advance repeat busy buyer chase model
+- name: observer2
+  coins:
+  - 10000token
+  - 250000000stake
+  mnemonic: sunset vault attract friend zero lazy rib hockey rice emotion party visual
 faucet:
   name: bob
   coins:
