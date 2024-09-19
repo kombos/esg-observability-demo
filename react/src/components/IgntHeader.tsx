@@ -1,5 +1,6 @@
 import { IgntLink, IgntLogo } from "@ignt/react-library";
 import IgntAcc from "./IgntAcc";
+import { IoReloadCircle } from "react-icons/io5";
 
 type MenuItem = {
   label: string;
@@ -27,7 +28,10 @@ export default function IgntHeader(props: IgntHeaderProps) {
           ))}
         </ul>
 
-        <div>
+        <div className="flex items-center gap-3">
+          <button className="am-esg-reload text-[2rem]">
+            <IoReloadCircle />
+          </button>
           <IgntAcc />
         </div>
       </nav>
