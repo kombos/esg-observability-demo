@@ -88,7 +88,7 @@ export default function RawMaterial() {
           Resources: "Silver Ore",
           Type: "Input",
           Unit: "g",
-          Amount: "10.49",
+          Amount: "12.3",
           "Flow UUID": "1181f5...43a5",
           Flow: "Silver, mining",
           "Method LCIA": "Resource use, minerals and metals",
