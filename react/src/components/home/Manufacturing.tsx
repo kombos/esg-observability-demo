@@ -1,7 +1,7 @@
 import React from "react";
 import { BsFillPuzzleFill } from "react-icons/bs";
-import { useClient } from "../../hooks/useClient";
 import { useAddressContext } from "../../def-hooks/addressContext";
+import { useClient } from "../../hooks/useClient";
 
 export default function Manufacturing() {
   const lcaClient = useClient();
@@ -14,6 +14,12 @@ export default function Manufacturing() {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevent default form submission
+
+    // check if the user is a proper stakeholder
+    if (creatorAddressObject?.address !== stakeholder) {
+      alert("The User is not Authorized as Designated Stakeholder");
+      return;
+    }
     console.log("Form submitted with input:");
     // generate random values for emission and water use
     const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
@@ -224,9 +230,7 @@ export default function Manufacturing() {
       <ul>{React.Children.toArray(DATA?.co_product?.products?.map((li) => <li>{li}</li>))}</ul>
 
       <div className="buttons">
-        <button onClick={handleSubmit} disabled={!(creatorAddressObject?.address == stakeholder)}>
-          Submit
-        </button>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );

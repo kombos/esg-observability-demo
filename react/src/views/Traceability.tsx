@@ -32,12 +32,19 @@ export default function Traceability() {
   } = useEsgobservabilitydemoEsgobservabilitydemo();
 
   const rawMaterialAll = QueryRawMaterialExtractionAll(
-    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
+    { "pagination.limit": perPage, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
     hookOptions,
     perPage,
   );
 
-  const rawMaterialLatest = QueryRawMaterialExtraction(latestIndexes?.[0]?.toString?.(), hookOptions);
+  const rawMaterialLatest = rawMaterialAll?.data?.pages?.[0]?.pagination?.total || 0;
+
+  const {
+    data: rawMaterialLatestData,
+    error: rawMaterialLatestErro,
+    isError: rawMaterialLatestIsError,
+    isLoading: rawMaterialLatestIsLoading,
+  } = QueryRawMaterialExtraction(latestIndexes?.[0]?.toString?.(), hookOptions);
 
   const materialProcessingAll = QueryMaterialProcessingAll(
     { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": false, "pagination.reverse": true },
@@ -45,7 +52,14 @@ export default function Traceability() {
     perPage,
   );
 
-  const materialProcessingLatest = QueryMaterialProcessing(latestIndexes?.[1]?.toString?.(), hookOptions);
+  const materialProcessingLatest = materialProcessingAll?.data?.pages?.[0]?.pagination?.total || 0;
+
+  const {
+    data: materialProcessingLatestData,
+    error: materialProcessingLatestError,
+    isError: materialProcessingLatestIsError,
+    isLoading: materialProcessingLatestIsLoading,
+  } = QueryMaterialProcessing(latestIndexes?.[1]?.toString?.(), hookOptions);
 
   const manufacturingAll = QueryManufacturingAll(
     { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
@@ -53,7 +67,14 @@ export default function Traceability() {
     perPage,
   );
 
-  const manufacturingLatest = QueryManufacturing(latestIndexes?.[2]?.toString?.(), hookOptions);
+  const manufacturingLatest = manufacturingAll?.data?.pages?.[0]?.pagination?.total || 0;
+
+  const {
+    data: manufacturingLatestData,
+    error: manufacturingLatestError,
+    isError: manufacturingLatestIsError,
+    isLoading: manufacturingLatestIsLoading,
+  } = QueryManufacturing(latestIndexes?.[2]?.toString?.(), hookOptions);
 
   const transportationAll = QueryTransportationAll(
     { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
@@ -61,13 +82,30 @@ export default function Traceability() {
     perPage,
   );
 
-  const transportationLatest = QueryTransportation(latestIndexes?.[3]?.toString?.(), hookOptions);
+  const transportationLatest = materialProcessingAll?.data?.pages?.[0]?.pagination?.total || 0;
+
+  const {
+    data: transportationLatestData,
+    error: transportationLatestError,
+    isError: transportationLatestIsError,
+    isLoading: transportationLatestIsLoading,
+  } = QueryTransportation(latestIndexes?.[3]?.toString?.(), hookOptions);
 
   const handleResetFlow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevents default behavior, if needed
     console.log("Button clicked!");
-    console.log("materialProcessingAll: ", materialProcessingAll);
-    // You can add additional logic here, such as API calls or state updates
+    console.log("rawMaterialLatest: ", rawMaterialLatest);
+    console.log("materialProcessingLatest: ", materialProcessingLatest);
+    console.log("manufacturingLatest: ", manufacturingLatest);
+    console.log("transportationLatest: ", transportationLatest);
+  };
+
+  const step = {
+    title: "Raw Material Extracting",
+    hash: "asdfjakjhwnan",
+    primaryKey: "asdfjakjhwnan",
+    otherKey: "asdfjakjhwnan",
+    state: "completed",
   };
 
   const DATA = {
@@ -79,28 +117,28 @@ export default function Traceability() {
     ],
     StepData: [
       {
-        title: "Title 1",
+        title: "Raw Material Extracting",
         hash: "asdfjakjhwnan",
         primaryKey: "asdfjakjhwnan",
         otherKey: "asdfjakjhwnan",
         state: "completed",
       },
       {
-        title: "Title 2",
+        title: "Materials Processing",
         hash: "asdfjakjhwnan",
         primaryKey: "asdfjakjhwnan",
         otherKey: "asdfjakjhwnan",
         state: "",
       },
       {
-        title: "Title 3",
+        title: "Manufacturing",
         hash: "asdfjakjhwnan",
         primaryKey: "asdfjakjhwnan",
         otherKey: "asdfjakjhwnan",
         state: "",
       },
       {
-        title: "Title 4",
+        title: "Distribution & Transportation",
         hash: "asdfjakjhwnan",
         primaryKey: "asdfjakjhwnan",
         otherKey: "asdfjakjhwnan",
@@ -129,7 +167,7 @@ export default function Traceability() {
 
   return (
     <div className="am-esg-signature">
-      <main>
+      {/* <main>
         {DATA?.StepData &&
           Array.isArray(DATA?.StepData) &&
           DATA?.StepData.length > 0 &&
@@ -149,6 +187,56 @@ export default function Traceability() {
               </div>
             )),
           )}
+      </main> */}
+      <main>
+        <div className="step">
+          <div className={`indicator ${step?.state === "completed" ? "active" : ""}`}>
+            {step?.state === "completed" ? <SiTicktick className="icon" /> : <FaMinusCircle className="icon" />}
+            <span></span>
+          </div>
+          <div className="content">
+            <h2>{step?.title}</h2>
+            <p className="hash">Hash: {step?.hash}</p>
+            <p className="key primary">Primary Key: {step?.primaryKey}</p>
+            <p className="key others">Other Key: {step?.otherKey}</p>
+          </div>
+        </div>
+        <div className="step">
+          <div className={`indicator ${step?.state === "completed" ? "active" : ""}`}>
+            {step?.state === "completed" ? <SiTicktick className="icon" /> : <FaMinusCircle className="icon" />}
+            <span></span>
+          </div>
+          <div className="content">
+            <h2>{step?.title}</h2>
+            <p className="hash">Hash: {step?.hash}</p>
+            <p className="key primary">Primary Key: {step?.primaryKey}</p>
+            <p className="key others">Other Key: {step?.otherKey}</p>
+          </div>
+        </div>
+        <div className="step">
+          <div className={`indicator ${step?.state === "completed" ? "active" : ""}`}>
+            {step?.state === "completed" ? <SiTicktick className="icon" /> : <FaMinusCircle className="icon" />}
+            <span></span>
+          </div>
+          <div className="content">
+            <h2>{step?.title}</h2>
+            <p className="hash">Hash: {step?.hash}</p>
+            <p className="key primary">Primary Key: {step?.primaryKey}</p>
+            <p className="key others">Other Key: {step?.otherKey}</p>
+          </div>
+        </div>
+        <div className="step">
+          <div className={`indicator ${step?.state === "completed" ? "active" : ""}`}>
+            {step?.state === "completed" ? <SiTicktick className="icon" /> : <FaMinusCircle className="icon" />}
+            <span></span>
+          </div>
+          <div className="content">
+            <h2>{step?.title}</h2>
+            <p className="hash">Hash: {step?.hash}</p>
+            <p className="key primary">Primary Key: {step?.primaryKey}</p>
+            <p className="key others">Other Key: {step?.otherKey}</p>
+          </div>
+        </div>
       </main>
       <aside>
         <h1 className="title">{DATA?.title}</h1>

@@ -14,6 +14,12 @@ export default function Distribution() {
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevent default form submission
+
+    // check if the user is a proper stakeholder
+    if (creatorAddressObject?.address !== stakeholder) {
+      alert("The User is not Authorized as Designated Stakeholder");
+      return;
+    }
     // generate random values for emission and water use
     const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
     const fuelUse = Math.random() * (highestFuelUse - lowestFuelUse) + lowestFuelUse;
@@ -174,9 +180,7 @@ export default function Distribution() {
       <ul>{React.Children.toArray(DATA?.co_product?.products?.map((li) => <li>{li}</li>))}</ul>
 
       <div className="buttons">
-        <button onClick={handleSubmit} disabled={!(creatorAddressObject?.address == stakeholder)}>
-          Submit
-        </button>
+        <button onClick={handleSubmit}>Submit</button>
       </div>
     </div>
   );
