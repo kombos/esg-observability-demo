@@ -179,8 +179,6 @@ export default function LcaPortal() {
     }
   };
 
-  console.log("rawMaterialAll: ", rawMaterialAll);
-
   const TABS = [
     {
       title: "Raw Material Extraction",
@@ -218,49 +216,6 @@ export default function LcaPortal() {
         </nav>
         <main>{TABS?.find((el) => el?.value === Tab)?.component}</main>
       </div>
-      {/* <div>
-      <div className="container mx-auto">
-        <div className="grid grid-cols-2">
-          <div>
-            <IgntAssets className="px-2.5 mb-10" displayLimit={3} />
-            <IgntTransactions className="px-2.5" />
-            <div>
-              <div>
-                <label htmlFor="textbox1">Textbox 1:</label>
-                <input type="text" id="textbox1" name="textbox1" />
-              </div>
-              <div>
-                <label htmlFor="textbox2">Textbox 2:</label>
-                <input type="text" id="textbox2" name="textbox2" />
-              </div>
-              <div>
-                <label htmlFor="textbox3">Textbox 3:</label>
-                <input type="text" id="textbox3" name="textbox3" />
-              </div>
-              <div>
-                <label htmlFor="textbox4">Textbox 4:</label>
-                <input type="text" id="textbox4" name="textbox4" />
-              </div>
-            </div>
-            <div>
-              <div>
-                <button onClick={(e) => handleSubmitRawMaterials(e)}>Submit Raw Materials</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitMaterialProcessing(e)}>Submit Material Processing</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitManufacturing(e)}>Submit Manufacturing</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitTransportation(e)}>Submit Transportation</button>
-              </div>
-            </div>
-          </div>
-          <IgntTransfer className="px-2.5 w-4/6 mx-auto" />
-        </div>
-      </div>
-    </div> */}
     </>
   );
 }

@@ -1,7 +1,45 @@
 import React from "react";
 import { BsFillPuzzleFill } from "react-icons/bs";
+import { useAddressContext } from "../../def-hooks/addressContext";
+import { useClient } from "../../hooks/useClient";
 
 export default function RawMaterial() {
+  const lcaClient = useClient();
+  const creatorAddressObject = useAddressContext();
+  const lowestEmission = 100;
+  const highestEmission = 450;
+  const lowestWaterUse = 0;
+  const highestWaterUse = 100;
+  const stakeholder = "cosmos199sfwptd2u7tq8gu5gqrsj47qlf5u9s7qqnfht";
+
+  // Handle form submit
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent default form submission
+    // generate random values for emission and water use
+    const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
+    const randomWaterUse = Math.random() * (highestWaterUse - lowestWaterUse) + lowestWaterUse;
+
+    // create transaction to create raw material data
+    try {
+      const tx_result = await lcaClient.EsgobservabilitydemoEsgobservabilitydemo.tx.sendMsgCreateRawMaterialExtraction({
+        value: {
+          creator: creatorAddressObject?.address,
+          emissions: randomEmission?.toString(),
+          resourceType: "Silver",
+          waterUse: randomWaterUse?.toString(),
+        },
+        fee: {
+          amount: [{ amount: "0", denom: "stake" }],
+          gas: "200000",
+        },
+        memo: "",
+      });
+      alert("Transaction Submitted. Wait for confirmation");
+    } catch (error) {
+      console.error("Error during handle submit: ", error);
+    }
+  };
+
   const DATA = {
     title: "Inventory Assessment",
     titleChip: (
@@ -180,7 +218,9 @@ export default function RawMaterial() {
       <ul>{React.Children.toArray(DATA?.co_product?.products?.map((li) => <li>{li}</li>))}</ul>
 
       <div className="buttons">
-        <button>Submit</button>
+        <button onClick={handleSubmit} disabled={!(creatorAddressObject?.address == stakeholder)}>
+          Submit
+        </button>
       </div>
     </div>
   );

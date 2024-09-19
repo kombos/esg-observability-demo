@@ -172,8 +172,6 @@ export default function MarketPlace() {
     }
   };
 
-  console.log("rawMaterialAll: ", rawMaterialAll);
-
   return (
     <div>
       <div className="container mx-auto">

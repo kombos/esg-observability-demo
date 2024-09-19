@@ -1,7 +1,43 @@
 import React from "react";
 import { BsFillPuzzleFill } from "react-icons/bs";
+import { useClient } from "../../hooks/useClient";
+import { useAddressContext } from "../../def-hooks/addressContext";
 
 export default function Distribution() {
+  const lcaClient = useClient();
+  const creatorAddressObject = useAddressContext();
+  const lowestEmission = 100;
+  const highestEmission = 450;
+  const lowestFuelUse = 0;
+  const highestFuelUse = 1000;
+  const stakeholder = "cosmos1arfwns32lw99z2jhlyj8cgnjd7c06yf09y8l63";
+
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent default form submission
+    // generate random values for emission and water use
+    const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
+    const fuelUse = Math.random() * (highestFuelUse - lowestFuelUse) + lowestFuelUse;
+
+    // create transaction to create transportation data
+    try {
+      const tx_result = await lcaClient.EsgobservabilitydemoEsgobservabilitydemo.tx.sendMsgCreateTransportation({
+        value: {
+          creator: creatorAddressObject?.address,
+          emissions: randomEmission?.toString(),
+          transportationType: "Refined Silver",
+          fuelUse: fuelUse?.toString(),
+        },
+        fee: {
+          amount: [{ amount: "0", denom: "stake" }],
+          gas: "200000",
+        },
+        memo: "",
+      });
+      alert("Transaction Submitted. Wait for confirmation");
+    } catch (error) {
+      console.error("Error during handle submit: ", error);
+    }
+  };
   const DATA = {
     title: "Inventory Assessment",
     titleChip: (
@@ -180,7 +216,9 @@ export default function Distribution() {
       <ul>{React.Children.toArray(DATA?.co_product?.products?.map((li) => <li>{li}</li>))}</ul>
 
       <div className="buttons">
-        <button>Submit</button>
+        <button onClick={handleSubmit} disabled={!(creatorAddressObject?.address == stakeholder)}>
+          Submit
+        </button>
       </div>
     </div>
   );

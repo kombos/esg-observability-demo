@@ -172,8 +172,6 @@ export default function ProductQR() {
     }
   };
 
-  console.log("rawMaterialAll: ", rawMaterialAll);
-
   return (
     <div>
       <div className="container mx-auto">

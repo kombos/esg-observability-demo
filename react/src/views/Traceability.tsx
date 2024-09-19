@@ -8,9 +8,67 @@ import { TbWritingSign, TbWritingSignOff } from "react-icons/tb";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
 
 export default function Traceability() {
-  const { QueryRawMaterialExtractionAll, QueryRawMaterialExtraction } = useEsgobservabilitydemoEsgobservabilitydemo();
   const [Sign1, setSign1] = useState(true);
   const [Sign2, setSign2] = useState(false);
+
+  // latest reset index values for Raw Material Extraction, Material Processing, Manufacturing and Transportation respectively
+  const [latestIndexes, setLatestIndexes] = useState([0, 0, 0, 0]);
+
+  const hookOptions = {
+    // ... other options
+    refetchInterval: 2000, // Revalidate every 2 seconds
+  };
+  const perPage = 100;
+
+  const {
+    QueryManufacturingAll,
+    QueryTransportationAll,
+    QueryMaterialProcessingAll,
+    QueryRawMaterialExtractionAll,
+    QueryManufacturing,
+    QueryMaterialProcessing,
+    QueryRawMaterialExtraction,
+    QueryTransportation,
+  } = useEsgobservabilitydemoEsgobservabilitydemo();
+
+  const rawMaterialAll = QueryRawMaterialExtractionAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
+    hookOptions,
+    perPage,
+  );
+
+  const rawMaterialLatest = QueryRawMaterialExtraction(latestIndexes?.[0]?.toString?.(), hookOptions);
+
+  const materialProcessingAll = QueryMaterialProcessingAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": false, "pagination.reverse": true },
+    hookOptions,
+    perPage,
+  );
+
+  const materialProcessingLatest = QueryMaterialProcessing(latestIndexes?.[1]?.toString?.(), hookOptions);
+
+  const manufacturingAll = QueryManufacturingAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
+    hookOptions,
+    perPage,
+  );
+
+  const manufacturingLatest = QueryManufacturing(latestIndexes?.[2]?.toString?.(), hookOptions);
+
+  const transportationAll = QueryTransportationAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
+    hookOptions,
+    perPage,
+  );
+
+  const transportationLatest = QueryTransportation(latestIndexes?.[3]?.toString?.(), hookOptions);
+
+  const handleResetFlow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault(); // Prevents default behavior, if needed
+    console.log("Button clicked!");
+    console.log("materialProcessingAll: ", materialProcessingAll);
+    // You can add additional logic here, such as API calls or state updates
+  };
 
   const DATA = {
     title: "Title Here",
@@ -123,6 +181,9 @@ export default function Traceability() {
             </div>
             <div className={`sign ${Sign2 ? "active" : ""}`}>
               {Sign2 ? <SiTicktick /> : <FaMinusCircle />} {Sign1 ? <TbWritingSign /> : <TbWritingSignOff />}
+            </div>
+            <div className={`sign ${Sign2 ? "active" : ""}`}>
+              <button onClick={handleResetFlow}>Submit</button>
             </div>
           </div>
         </div>

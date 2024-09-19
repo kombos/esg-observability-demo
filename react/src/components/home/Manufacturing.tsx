@@ -1,7 +1,45 @@
 import React from "react";
 import { BsFillPuzzleFill } from "react-icons/bs";
+import { useClient } from "../../hooks/useClient";
+import { useAddressContext } from "../../def-hooks/addressContext";
 
 export default function Manufacturing() {
+  const lcaClient = useClient();
+  const creatorAddressObject = useAddressContext();
+  const lowestEmission = 100;
+  const highestEmission = 450;
+  const lowestWaterUse = 0;
+  const highestWaterUse = 100;
+  const stakeholder = "cosmos1tsa8v985hqwjmhjn5hsznuyfuttcmwhekp5zpe";
+
+  const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    event.preventDefault(); // Prevent default form submission
+    console.log("Form submitted with input:");
+    // generate random values for emission and water use
+    const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
+    const randomWaterUse = Math.random() * (highestWaterUse - lowestWaterUse) + lowestWaterUse;
+
+    // create transaction to create manufacturing data
+    try {
+      const tx_result = await lcaClient.EsgobservabilitydemoEsgobservabilitydemo.tx.sendMsgCreateManufacturing({
+        value: {
+          creator: creatorAddressObject?.address,
+          emissions: randomEmission?.toString(),
+          componentType: "Refined Silver",
+          waterUse: randomWaterUse?.toString(),
+        },
+        fee: {
+          amount: [{ amount: "0", denom: "stake" }],
+          gas: "200000",
+        },
+        memo: "",
+      });
+      alert("Transaction Submitted. Wait for confirmation");
+    } catch (error) {
+      console.error("Error during handle submit: ", error);
+    }
+  };
+
   const DATA = {
     title: "Inventory Assessment",
     titleChip: (
@@ -180,7 +218,9 @@ export default function Manufacturing() {
       <ul>{React.Children.toArray(DATA?.co_product?.products?.map((li) => <li>{li}</li>))}</ul>
 
       <div className="buttons">
-        <button>Submit</button>
+        <button onClick={handleSubmit} disabled={!(creatorAddressObject?.address == stakeholder)}>
+          Submit
+        </button>
       </div>
     </div>
   );

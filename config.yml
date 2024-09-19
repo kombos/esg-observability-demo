@@ -8,16 +8,27 @@ accounts:
   coins:
   - 10000token
   - 100000000stake
-- name: observer
+- name: extractor
   coins:
   - 20000token
   - 200000000stake
   mnemonic: canal pipe license style master below advance repeat busy buyer chase model
-- name: observer2
+- name: processor
   coins:
   - 10000token
   - 250000000stake
   mnemonic: sunset vault attract friend zero lazy rib hockey rice emotion party visual
+- name: manufacturer
+  coins:
+  - 10000token
+  - 250000000stake
+  mnemonic: height mechanic crush exit exit position giggle friend critic master erode there
+- name: distributor
+  coins:
+  - 10000token
+  - 250000000stake
+  mnemonic: vessel dial fun hour easily logic index round sadness assist process grit
+  
 faucet:
   name: bob
   coins:
