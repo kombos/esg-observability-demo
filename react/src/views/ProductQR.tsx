@@ -1,11 +1,13 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import { BsFillStarFill } from "react-icons/bs";
 import IgntAssets from "../components/IgntAssets";
 import IgntTransactions from "../components/IgntTransactions";
 import IgntTransfer from "../components/IgntTransfer";
 import { useAddressContext } from "../def-hooks/addressContext";
 import { useClient } from "../hooks/useClient";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
+import React from "react";
 
 export default function ProductQR() {
   const lcaClient = useClient();
@@ -172,49 +174,56 @@ export default function ProductQR() {
     }
   };
 
+  const RatingsData = [
+    {
+      title: "Raw Material Extraction Stage Emissions: ",
+      point: 4,
+    },
+    {
+      title: "Material Processing Stage Emissions: ",
+      point: 5,
+    },
+    {
+      title: "Manufacturing Stage Emissions: ",
+      point: 4,
+    },
+    {
+      title: "Distribution Stage Emissions: ",
+      point: 3,
+    },
+  ];
+
   return (
-    <div>
-      <div className="container mx-auto">
-        <div className="grid grid-cols-2">
-          <div>
-            <IgntAssets className="px-2.5 mb-10" displayLimit={3} />
-            <IgntTransactions className="px-2.5" />
-            <div>
-              <div>
-                <label htmlFor="textbox1">Textbox 1:</label>
-                <input type="text" id="textbox1" name="textbox1" />
-              </div>
-              <div>
-                <label htmlFor="textbox2">Textbox 2:</label>
-                <input type="text" id="textbox2" name="textbox2" />
-              </div>
-              <div>
-                <label htmlFor="textbox3">Textbox 3:</label>
-                <input type="text" id="textbox3" name="textbox3" />
-              </div>
-              <div>
-                <label htmlFor="textbox4">Textbox 4:</label>
-                <input type="text" id="textbox4" name="textbox4" />
-              </div>
-            </div>
-            <div>
-              <div>
-                <button onClick={(e) => handleSubmitRawMaterials(e)}>Submit Raw Materials</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitMaterialProcessing(e)}>Submit Material Processing</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitManufacturing(e)}>Submit Manufacturing</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitTransportation(e)}>Submit Transportation</button>
-              </div>
-            </div>
-          </div>
-          <IgntTransfer className="px-2.5 w-4/6 mx-auto" />
+    <main className="am-esg-product-qr">
+      <div className="left">
+        <img src="/media/table.png" alt="table" />
+      </div>
+      <div className="right">
+        <div className="logo">
+          <img src="/media/logo.png" alt="EY Logo" />
+        </div>
+        <div className="ratings">
+          {RatingsData &&
+            Array.isArray(RatingsData) &&
+            RatingsData.length > 0 &&
+            React.Children.toArray(
+              RatingsData.map((rate) => (
+                <div className="rating">
+                  <p>{rate?.title}</p>
+                  <div className="stars">
+                    {React.Children.toArray(
+                      [...Array(5)].map((el, ind) => (
+                        <span className={ind < rate?.point ? "active" : ""}>
+                          <BsFillStarFill />
+                        </span>
+                      )),
+                    )}
+                  </div>
+                </div>
+              )),
+            )}
         </div>
       </div>
-    </div>
+    </main>
   );
 }
