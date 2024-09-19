@@ -13,7 +13,7 @@ export default function IgntHeader(props: IgntHeaderProps) {
   const { navItems } = props;
 
   return (
-    <header className="flex p-5 bg-[var(--am-esg-white)]">
+    <header className="flex p-5 bg-[var(--am-esg-white)] sticky top-0 left-0 right-0 z-50">
       {/* <IgntLogo className="mx-2.5" /> */}
       <a href="/" className="am-esg-logo flex items-center">
         EY Compass Observability
