@@ -1,13 +1,20 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
+import React, { useState } from "react";
 import IgntAssets from "../components/IgntAssets";
 import IgntTransactions from "../components/IgntTransactions";
 import IgntTransfer from "../components/IgntTransfer";
 import { useAddressContext } from "../def-hooks/addressContext";
 import { useClient } from "../hooks/useClient";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
+import RawMaterial from "../components/home/RawMaterial";
+import MaterialProcessing from "../components/home/MaterialProcessing";
+import Manufacturing from "../components/home/Manufacturing";
+import Distribution from "../components/home/Distribution";
 
 export default function LcaPortal() {
+  const [Tab, setTab] = useState("raw-material");
+
   const lcaClient = useClient();
   const creatorAddressObject = useAddressContext();
   const lowestEmission = 100;
@@ -174,8 +181,44 @@ export default function LcaPortal() {
 
   console.log("rawMaterialAll: ", rawMaterialAll);
 
+  const TABS = [
+    {
+      title: "Raw Material Extraction",
+      value: "raw-material",
+      component: <RawMaterial />,
+    },
+    {
+      title: "Material Processing",
+      value: "material-processing",
+      component: <MaterialProcessing />,
+    },
+    {
+      title: "Manufacturing",
+      value: "manufacturing",
+      component: <Manufacturing />,
+    },
+    {
+      title: "Distribution & Transportation",
+      value: "distribution",
+      component: <Distribution />,
+    },
+  ];
+
   return (
-    <div>
+    <>
+      <div className="am-esg-process">
+        <nav>
+          {React.Children.toArray(
+            TABS.map((tab) => (
+              <button className={Tab === tab?.value ? "active" : ""} onClick={() => setTab(tab?.value)}>
+                {tab?.title}
+              </button>
+            )),
+          )}
+        </nav>
+        <main>{TABS?.find((el) => el?.value === Tab)?.component}</main>
+      </div>
+      {/* <div>
       <div className="container mx-auto">
         <div className="grid grid-cols-2">
           <div>
@@ -217,6 +260,7 @@ export default function LcaPortal() {
           <IgntTransfer className="px-2.5 w-4/6 mx-auto" />
         </div>
       </div>
-    </div>
+    </div> */}
+    </>
   );
 }
