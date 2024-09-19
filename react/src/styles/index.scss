@@ -267,6 +267,10 @@ input[type="search"]::-webkit-search-results-decoration {
             color: var(--am-esg-white);
             border: none;
             border-radius: 24px;
+            &:disabled {
+              background-color: var(--am-esg-white-100);
+              color: var(--am-esg-gray);
+            }
           }
         }
       }
@@ -518,16 +522,16 @@ input[type="search"]::-webkit-search-results-decoration {
           align-items: center;
           & > button {
             padding: 8px 24px;
-            border: 1px solid var(--am-esg-black);
+            border: 1px solid var(--am-esg-green);
             font-weight: 700;
             &.active {
-              background-color: var(--am-esg-black);
-              color: var(--am-esg-green);
+              background-color: var(--am-esg-green);
+              color: var(--am-esg-black);
             }
           }
         }
         & > .prod-data-addToCart {
-          padding: 16px 24px;
+          padding: 8px 24px;
           border-radius: 24px;
           background-color: var(--am-esg-green);
           font-weight: 700;
@@ -547,6 +551,41 @@ input[type="search"]::-webkit-search-results-decoration {
           background-repeat: no-repeat;
           background-color: rgba(0, 0, 0, 0.6);
           // z-index: 200;
+        }
+      }
+    }
+  }
+  &-storefront {
+    width: min(1440px, 100%);
+    margin: 0 auto;
+    height: 100dvh;
+    position: relative;
+    & > img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+    & > .qr-code {
+      width: min(400px, 100%);
+      padding: 24px;
+      border-radius: 12px;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: color-mix(in srgb, var(--am-esg-white) 40%, #ffffff00);
+      color: var(--am-esg-green);
+      backdrop-filter: blur(15px);
+      & > svg {
+        fill: none;
+        & > path {
+          &:first-child {
+            fill: none;
+          }
+          &:last-child {
+            fill: var(--am-esg-black);
+          }
         }
       }
     }
