@@ -17,8 +17,33 @@ export default function LcaPortal() {
   const lowestFuelUse = 0;
   const highestFuelUse = 1000;
 
-  const {QueryManufacturingAll, QueryTransportationAll, QueryMaterialProcessingAll, QueryRawMaterialExtractionAll} = useEsgobservabilitydemoEsgobservabilitydemo();
-  const manufacturingAll = QueryManufacturingAll()
+  const hookOptions = {
+    // ... other options
+    refetchInterval: 2000, // Revalidate every 2 seconds
+  };
+  const perPage = 100;
+
+  const { QueryManufacturingAll, QueryTransportationAll, QueryMaterialProcessingAll, QueryRawMaterialExtractionAll } =
+    useEsgobservabilitydemoEsgobservabilitydemo();
+
+  const rawMaterialAll = QueryRawMaterialExtractionAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
+    hookOptions,
+    perPage,
+  );
+
+  const materialProcessingAll = QueryMaterialProcessingAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
+    hookOptions,
+    perPage,
+  );
+
+  const manufacturingAll = QueryManufacturingAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
+    hookOptions,
+    perPage,
+  );
+
   // Handle form submit
   const handleSubmitRawMaterials = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevent default form submission
@@ -54,6 +79,15 @@ export default function LcaPortal() {
     // generate random values for emission and water use
     const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
     const randomWaterUse = Math.random() * (highestWaterUse - lowestWaterUse) + lowestWaterUse;
+
+    const value = {
+      creator: creatorAddressObject?.address,
+      emissions: randomEmission?.toString(),
+      materialType: "Refined Silver",
+      waterUse: randomWaterUse?.toString(),
+    };
+
+    console.log("vlue: ", value);
 
     // create transaction to create material processing data
     try {
@@ -132,6 +166,7 @@ export default function LcaPortal() {
     }
   };
 
+  console.log("rawMaterialAll: ", rawMaterialAll);
 
   return (
     <div>
@@ -141,28 +176,36 @@ export default function LcaPortal() {
             <IgntAssets className="px-2.5 mb-10" displayLimit={3} />
             <IgntTransactions className="px-2.5" />
             <div>
-            <div>
-        <label htmlFor="textbox1">Textbox 1:</label>
-        <input type="text" id="textbox1" name="textbox1" />
-      </div>
-      <div>
-        <label htmlFor="textbox2">Textbox 2:</label>
-        <input type="text" id="textbox2" name="textbox2" />
-      </div>
-      <div>
-        <label htmlFor="textbox3">Textbox 3:</label>
-        <input type="text" id="textbox3" name="textbox3" />
-      </div>
-      <div>
-        <label htmlFor="textbox4">Textbox 4:</label>
-        <input type="text" id="textbox4" name="textbox4" />
-      </div>
+              <div>
+                <label htmlFor="textbox1">Textbox 1:</label>
+                <input type="text" id="textbox1" name="textbox1" />
+              </div>
+              <div>
+                <label htmlFor="textbox2">Textbox 2:</label>
+                <input type="text" id="textbox2" name="textbox2" />
+              </div>
+              <div>
+                <label htmlFor="textbox3">Textbox 3:</label>
+                <input type="text" id="textbox3" name="textbox3" />
+              </div>
+              <div>
+                <label htmlFor="textbox4">Textbox 4:</label>
+                <input type="text" id="textbox4" name="textbox4" />
+              </div>
             </div>
             <div>
-              <div><button onClick={(e) => handleSubmitRawMaterials(e)}>Submit Raw Materials</button></div>
-              <div><button onClick={(e) => handleSubmitMaterialProcessing(e)}>Submit Material Processing</button></div>
-              <div><button onClick={(e) => handleSubmitManufacturing(e)}>Submit Manufacturing</button></div>
-              <div><button onClick={(e) => handleSubmitTransportation(e)}>Submit Transportation</button></div>
+              <div>
+                <button onClick={(e) => handleSubmitRawMaterials(e)}>Submit Raw Materials</button>
+              </div>
+              <div>
+                <button onClick={(e) => handleSubmitMaterialProcessing(e)}>Submit Material Processing</button>
+              </div>
+              <div>
+                <button onClick={(e) => handleSubmitManufacturing(e)}>Submit Manufacturing</button>
+              </div>
+              <div>
+                <button onClick={(e) => handleSubmitTransportation(e)}>Submit Transportation</button>
+              </div>
             </div>
           </div>
           <IgntTransfer className="px-2.5 w-4/6 mx-auto" />
