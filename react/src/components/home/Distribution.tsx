@@ -42,17 +42,17 @@ export default function Distribution() {
     title: "Inventory Assessment",
     titleChip: (
       <>
-        <BsFillPuzzleFill /> Product/Service - Shirt, Medium Size
+        <BsFillPuzzleFill /> Product - Silver Ring
       </>
     ),
     processTitle: "Process",
-    processValue: "1b32feca67 - Cotton Fibre, organic ginning mass -0.9kg",
+    processValue: "5abe34df - Transportation of silver products via truck",
     metaData: {
       title: "Process Metadata",
       objects: [
         {
           title: "Product Category",
-          value: "Textile",
+          value: "Jewelry and Accessories",
         },
         {
           title: "Process Type",
@@ -77,45 +77,25 @@ export default function Distribution() {
       tableKeys: ["Resources", "Type", "Unit", "Amount", "Flow UUID", "Flow", "Method LCIA", "Characterization Factor"],
       objects: [
         {
-          Resources: "Cotton",
+          Resources: "Diesel",
           Type: "Input",
-          Unit: "kg",
-          Amount: "234",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "(3-(sec...benzene",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
+          Unit: "L",
+          Amount: 15,
+          "Flow UUID": "5f123a...7b9e",
+          Flow: "Diesel fuel consumption during transportation",
+          "Method LCIA": "Warming Potential (GWP)",
+          "Characterization Factor": "kg CO₂-equivalents per L"
         },
         {
-          Resources: "Silk",
+          Resources: "Truck Transport",
           Type: "Input",
-          Unit: "kg",
-          Amount: "35",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "graining silk",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
-        },
-        {
-          Resources: "Refined Cotton",
-          Type: "Output",
-          Unit: "kg",
-          Amount: "220",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "cotton...ating",
-          "Method LCIA": "Eutrophication",
-          "Characterization Factor": "AQUATIC_EUTROPHICATION",
-        },
-        {
-          Resources: "Crude Oil",
-          Type: "Output",
-          Unit: "Litre",
-          Amount: "45",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "cotton...cessing",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
-        },
+          Unit: "km",
+          Amount: 120,
+          "Flow UUID": "9d6afc...e7d3",
+          Flow: "Transportation of silver products to distributor",
+          "Method LCIA": "Warming Potential (GWP)",
+          "Characterization Factor": "kg CO₂-equivalents per km"
+        },        
       ],
     },
     emissions: {
@@ -150,7 +130,7 @@ export default function Distribution() {
     },
     co_product: {
       title: "Co Products",
-      products: ["Cotton Threads", "Silk Threads", "Cotton Dye"],
+      products: ["Polished Silver Ring"],
     },
   };
 

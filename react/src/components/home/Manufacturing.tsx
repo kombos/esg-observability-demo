@@ -44,17 +44,17 @@ export default function Manufacturing() {
     title: "Inventory Assessment",
     titleChip: (
       <>
-        <BsFillPuzzleFill /> Product/Service - Shirt, Medium Size
+        <BsFillPuzzleFill /> Product - Silver Ring
       </>
     ),
     processTitle: "Process",
-    processValue: "1b32feca67 - Cotton Fibre, organic ginning mass -0.9kg",
+    processValue: "1123e23fe - Silver Ring Production; casting, forging, polishing at plant; 10.49 g/cm3",
     metaData: {
       title: "Process Metadata",
       objects: [
         {
           title: "Product Category",
-          value: "Textile",
+          value: "Jewelry and Accessories",
         },
         {
           title: "Process Type",
@@ -79,44 +79,54 @@ export default function Manufacturing() {
       tableKeys: ["Resources", "Type", "Unit", "Amount", "Flow UUID", "Flow", "Method LCIA", "Characterization Factor"],
       objects: [
         {
-          Resources: "Cotton",
+          Resources: "Silver Ore",
           Type: "Input",
-          Unit: "kg",
-          Amount: "234",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "(3-(sec...benzene",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
+          Unit: "g",
+          Amount: "8.5", 
+          "Flow UUID": "98234f...43a5",
+          Flow: "Silver smelting and refining",
+          "Method LCIA": "Warming Potential (GWP)",
+          "Characterization Factor": "kg CO₂-equivalents per kg"
         },
         {
-          Resources: "Silk",
-          Type: "Input",
-          Unit: "kg",
-          Amount: "35",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "graining silk",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
-        },
-        {
-          Resources: "Refined Cotton",
+          Resources: "Refined Silver",
           Type: "Output",
-          Unit: "kg",
-          Amount: "220",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "cotton...ating",
+          Unit: "g",
+          Amount: "7.5",  
+          "Flow UUID": "9af435...b43c",
+          Flow: "Silver refining",
+          "Method LCIA": "Warming Potential (GWP)",
+          "Characterization Factor": "kg CO₂-equivalents per kg"
+        },
+        {
+          Resources: "Copper",
+          Type: "Input",
+          Unit: "g",
+          Amount: "1",  
+          "Flow UUID": "74r2c5...d754",
+          Flow: "Alloying",
           "Method LCIA": "Eutrophication",
-          "Characterization Factor": "AQUATIC_EUTROPHICATION",
+          "Characterization Factor": "kg CO₂-equivalents per kg"
         },
         {
-          Resources: "Crude Oil",
-          Type: "Output",
-          Unit: "Litre",
-          Amount: "45",
-          "Flow UUID": "1181f5...43a5",
-          Flow: "cotton...cessing",
-          "Method LCIA": "Warming...(GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per kWh",
+          Resources: "Electricity",
+          Type: "Input",
+          Unit: "kWh",
+          Amount: 55,
+          "Flow UUID": "129fe3...c5f2",
+          Flow: "Electricity consumption during smelting",
+          "Method LCIA": "Warming Potential (GWP)",
+          "Characterization Factor": "kg CO₂-equivalents per kWh"
+        },
+        {
+          Resources: "Water",
+          Type: "Input",
+          Unit: "m3",
+          Amount: 12,
+          "Flow UUID": "9h34f3...r4v7",
+          Flow: "Cooling and refining processes",
+          "Method LCIA": "Water Consumption",
+          "Characterization Factor": "m³ per kg silver processed"
         },
       ],
     },
@@ -125,34 +135,34 @@ export default function Manufacturing() {
       tableKeys: ["LCIAMethod_uuid EF3.1", "LCIAMethod_name", "LCIAMethod_type", "LCIAMethod_impactIndicator"],
       objects: [
         {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
+          "LCIAMethod_uuid EF3.1": "7cfdc1f...7ac8",
           LCIAMethod_name: "Climate change-Fossil",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
+          LCIAMethod_type: "Mid-Point-Indicator",
           LCIAMethod_impactIndicator: "Radiative forcing as Global Warming Potential (GWP100)",
         },
         {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
+          "LCIAMethod_uuid EF3.1": "87br8j...98jkk",
           LCIAMethod_name: "Ecotoxicity, freshwater",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
+          LCIAMethod_type: "Mid-Point-Indicator",
           LCIAMethod_impactIndicator: "Comparative Toxic Unit for ecosystems (CTUe)",
         },
         {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
+          "LCIAMethod_uuid EF3.1": "b2a8d6...ce01",
           LCIAMethod_name: "EF-particulate matter",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
+          LCIAMethod_type: "Mid-Point-Indicator",
           LCIAMethod_impactIndicator: "Impact on human health",
         },
         {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
+          "LCIAMethod_uuid EF3.1": "14af9h6...cb12",
           LCIAMethod_name: "Resource use, minerals and metals",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
+          LCIAMethod_type: "Mid-Point-Indicator",
           LCIAMethod_impactIndicator: "Abiotic resource depletion (ADP ultimate reserve)",
         },
       ],
     },
     co_product: {
       title: "Co Products",
-      products: ["Cotton Threads", "Silk Threads", "Cotton Dye"],
+      products: ["Refined Silver Pipe"],
     },
   };
 
