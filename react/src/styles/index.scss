@@ -557,7 +557,7 @@ input[type="search"]::-webkit-search-results-decoration {
           left: 1px;
           width: 99%;
           aspect-ratio: 1/1;
-          background-size: 200% 200%;
+          background-size: 200% auto;
           background-repeat: no-repeat;
           background-color: rgba(0, 0, 0, 0.6);
           // z-index: 200;
@@ -595,6 +595,46 @@ input[type="search"]::-webkit-search-results-decoration {
           }
           &:last-child {
             fill: var(--am-esg-black);
+          }
+        }
+      }
+    }
+  }
+  &-product-qr {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    width: min(1440px, 100%);
+    margin: 0 auto;
+    background-color: var(--am-esg-white);
+    padding: 56px 48px;
+    min-height: 100dvh;
+    & > .left {
+      width: 100%;
+      & > img {
+        width: 100%;
+        height: auto;
+      }
+    }
+    & > .right {
+      & > .logo {
+        width: 100%;
+        & > img {
+          width: 100%;
+          height: auto;
+        }
+      }
+      & > .ratings {
+        padding-left: 24px;
+        & > .rating {
+          & > .stars {
+            display: flex;
+            & > span {
+              color: var(--am-esg-white-100);
+              &.active {
+                color: var(--am-esg-green);
+              }
+            }
           }
         }
       }
