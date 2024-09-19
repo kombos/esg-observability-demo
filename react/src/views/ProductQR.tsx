@@ -223,6 +223,9 @@ export default function ProductQR() {
               )),
             )}
         </div>
+        <div className="table-image">
+          <img src="/media/table-2.png" alt="table" />
+        </div>
       </div>
     </main>
   );
