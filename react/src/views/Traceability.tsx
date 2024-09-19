@@ -147,19 +147,27 @@ export default function Traceability() {
     ],
     RatingsData: [
       {
-        title: "Raw Material Extraction Stage Emissions: ",
+        title: "Raw Material Extraction Stage",
+        CO2value: "0.2",
+        H2Ovalue: "0.2",
         point: 4,
       },
       {
-        title: "Material Processing Stage Emissions: ",
-        point: 5,
-      },
-      {
-        title: "Manufacturing Stage Emissions: ",
+        title: "Material Processing Stage",
+        CO2value: "0.2",
+        H2Ovalue: "0.2",
         point: 4,
       },
       {
-        title: "Distribution Stage Emissions: ",
+        title: "Manufacturing Stage",
+        CO2value: "0.2",
+        H2Ovalue: "0.2",
+        point: 4,
+      },
+      {
+        title: "Distribution Stage",
+        CO2value: "0.2",
+        H2Ovalue: "0.2",
         point: 3,
       },
     ],
@@ -228,7 +236,14 @@ export default function Traceability() {
               React.Children.toArray(
                 DATA?.RatingsData.map((rate) => (
                   <div className="rating">
-                    <p>{rate?.title}</p>
+              
+                    <p style={{ color: 'black', fontWeight: 'bold' }}>{rate?.title}</p>
+                    <div className="stars">
+                      <div>
+                         <div><span className="rating-value" style={{ color: 'grey' }} >Carbon Emissions - {rate.CO2value} kg of CO2-equivalent</span></div>
+                         <div><span className="rating-value" style={{ color: 'grey' }} >Water Use - {rate.H2Ovalue} kg of H2O</span></div>
+                      </div>
+                    </div>
                     <div className="stars">
                       {React.Children.toArray(
                         [...Array(5)].map((el, ind) => (
