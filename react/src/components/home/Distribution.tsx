@@ -103,28 +103,10 @@ export default function Distribution() {
       tableKeys: ["LCIAMethod_uuid EF3.1", "LCIAMethod_name", "LCIAMethod_type", "LCIAMethod_impactIndicator"],
       objects: [
         {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
+          "LCIAMethod_uuid EF3.1": "7cfdc1f...7ac8",
           LCIAMethod_name: "Climate change-Fossil",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
+          LCIAMethod_type: "Mid-Point-Indicator",
           LCIAMethod_impactIndicator: "Radiative forcing as Global Warming Potential (GWP100)",
-        },
-        {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
-          LCIAMethod_name: "Ecotoxicity, freshwater",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
-          LCIAMethod_impactIndicator: "Comparative Toxic Unit for ecosystems (CTUe)",
-        },
-        {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
-          LCIAMethod_name: "EF-particulate matter",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
-          LCIAMethod_impactIndicator: "Impact on human health",
-        },
-        {
-          "LCIAMethod_uuid EF3.1": "1181f5...43a5",
-          LCIAMethod_name: "Resource use, minerals and metals",
-          LCIAMethod_type: "MID_POINT_INDICATOR",
-          LCIAMethod_impactIndicator: "Abiotic resource depletion (ADP ultimate reserve)",
         },
       ],
     },
