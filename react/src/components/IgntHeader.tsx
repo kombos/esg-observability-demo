@@ -15,6 +15,7 @@ export default function IgntHeader(props: IgntHeaderProps) {
   return (
     <header className="flex p-5">
       <IgntLogo className="mx-2.5" />
+      {/* <span>EY Compass Observability</span> */}
       <nav className="flex flex-1 justify-between">
         <ul className="flex items-center">
           {navItems.map((item) => (

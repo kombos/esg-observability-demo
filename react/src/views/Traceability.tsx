@@ -6,8 +6,7 @@ import IgntTransfer from "../components/IgntTransfer";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
 
 export default function Traceability() {
-  const { QueryRawMaterialExtractionAll,QueryRawMaterialExtraction } = useEsgobservabilitydemoEsgobservabilitydemo();
-  const RawMaterialList = QueryRawMaterialExtractionAll(query);
+  const { QueryRawMaterialExtractionAll, QueryRawMaterialExtraction } = useEsgobservabilitydemoEsgobservabilitydemo();
   return (
     <div>
       <div className="container mx-auto">
