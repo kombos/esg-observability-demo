@@ -6,13 +6,14 @@ import { FaMinusCircle } from "react-icons/fa";
 import { SiTicktick } from "react-icons/si";
 import { TbWritingSign, TbWritingSignOff } from "react-icons/tb";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
+import { convertToNumber, incrementStringNumber } from "../utils/library";
 
 export default function Traceability() {
   const [Sign1, setSign1] = useState(true);
   const [Sign2, setSign2] = useState(false);
 
   // latest reset index values for Raw Material Extraction, Material Processing, Manufacturing and Transportation respectively
-  const [latestIndexes, setLatestIndexes] = useState([0, 0, 0, 0]);
+  const [latestIndexes, setLatestIndexes] = useState(["0", "0", "0", "0"]);
 
   const hookOptions = {
     // ... other options
@@ -37,7 +38,7 @@ export default function Traceability() {
     perPage,
   );
 
-  const rawMaterialLatest = rawMaterialAll?.data?.pages?.[0]?.pagination?.total || 0;
+  const rawMaterialLatest = rawMaterialAll?.data?.pages?.[0]?.pagination?.total || "0";
 
   const {
     data: rawMaterialLatestData,
@@ -52,7 +53,7 @@ export default function Traceability() {
     perPage,
   );
 
-  const materialProcessingLatest = materialProcessingAll?.data?.pages?.[0]?.pagination?.total || 0;
+  const materialProcessingLatest = materialProcessingAll?.data?.pages?.[0]?.pagination?.total || "0";
 
   const {
     data: materialProcessingLatestData,
@@ -67,7 +68,7 @@ export default function Traceability() {
     perPage,
   );
 
-  const manufacturingLatest = manufacturingAll?.data?.pages?.[0]?.pagination?.total || 0;
+  const manufacturingLatest = manufacturingAll?.data?.pages?.[0]?.pagination?.total || "0";
 
   const {
     data: manufacturingLatestData,
@@ -82,7 +83,7 @@ export default function Traceability() {
     perPage,
   );
 
-  const transportationLatest = materialProcessingAll?.data?.pages?.[0]?.pagination?.total || 0;
+  const transportationLatest = materialProcessingAll?.data?.pages?.[0]?.pagination?.total || "0";
 
   const {
     data: transportationLatestData,
@@ -93,11 +94,12 @@ export default function Traceability() {
 
   const handleResetFlow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevents default behavior, if needed
-    console.log("Button clicked!");
+    console.log("Button clicked!", manufacturingAll);
     console.log("rawMaterialLatest: ", rawMaterialLatest);
     console.log("materialProcessingLatest: ", materialProcessingLatest);
     console.log("manufacturingLatest: ", manufacturingLatest);
     console.log("transportationLatest: ", transportationLatest);
+    setLatestIndexes([rawMaterialLatest, materialProcessingLatest, manufacturingLatest, transportationLatest]);
   };
 
   const step = {
@@ -111,8 +113,6 @@ export default function Traceability() {
   const DATA = {
     title: "Title Here",
     details: [
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam consequuntur, fuga voluptas quo beatae ut!",
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam consequuntur, fuga voluptas quo beatae ut!",
       "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam consequuntur, fuga voluptas quo beatae ut!",
     ],
     StepData: [
@@ -167,27 +167,6 @@ export default function Traceability() {
 
   return (
     <div className="am-esg-signature">
-      {/* <main>
-        {DATA?.StepData &&
-          Array.isArray(DATA?.StepData) &&
-          DATA?.StepData.length > 0 &&
-          React.Children.toArray(
-            DATA?.StepData.map((step) => (
-              <div className="step">
-                <div className={`indicator ${step?.state === "completed" ? "active" : ""}`}>
-                  {step?.state === "completed" ? <SiTicktick className="icon" /> : <FaMinusCircle className="icon" />}
-                  <span></span>
-                </div>
-                <div className="content">
-                  <h2>{step?.title}</h2>
-                  <p className="hash">Hash: {step?.hash}</p>
-                  <p className="key primary">Primary Key: {step?.primaryKey}</p>
-                  <p className="key others">Other Key: {step?.otherKey}</p>
-                </div>
-              </div>
-            )),
-          )}
-      </main> */}
       <main>
         <div className="step">
           <div className={`indicator ${step?.state === "completed" ? "active" : ""}`}>
