@@ -44,6 +44,12 @@ export default function LcaPortal() {
     perPage,
   );
 
+  const transportationAll = QueryTransportationAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
+    hookOptions,
+    perPage,
+  );
+
   // Handle form submit
   const handleSubmitRawMaterials = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevent default form submission
