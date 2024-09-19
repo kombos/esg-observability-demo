@@ -111,9 +111,9 @@ export default function Traceability() {
   };
 
   const DATA = {
-    title: "Title Here",
+    title: "EPD Overview",
     details: [
-      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam consequuntur, fuga voluptas quo beatae ut!",
+      "This EPD covers the environmental impact of a silver ring weighing 10.49 grams. It includes raw material extraction, manufacturing and transportation, providing detailed information on resource use, emissions, and waste, in line with relevant environmental standards.",
     ],
     StepData: [
       {
