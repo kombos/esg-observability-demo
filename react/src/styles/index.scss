@@ -617,6 +617,9 @@ input[type="search"]::-webkit-search-results-decoration {
       }
     }
     & > .right {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
       & > .logo {
         width: 100%;
         & > img {
@@ -636,6 +639,13 @@ input[type="search"]::-webkit-search-results-decoration {
               }
             }
           }
+        }
+      }
+      & > .table-image {
+        width: 100%;
+        & > img {
+          width: 100%;
+          height: auto;
         }
       }
     }
