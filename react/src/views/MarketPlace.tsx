@@ -1,220 +1,264 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-/* eslint-disable jsx-a11y/click-events-have-key-events */
-import IgntAssets from "../components/IgntAssets";
-import IgntTransactions from "../components/IgntTransactions";
-import IgntTransfer from "../components/IgntTransfer";
-import { useAddressContext } from "../def-hooks/addressContext";
-import { useClient } from "../hooks/useClient";
-import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
+import React, { useEffect, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import Revealer from "../components/marketplace/Revealer";
 
 export default function MarketPlace() {
-  const lcaClient = useClient();
-  const creatorAddressObject = useAddressContext();
-  const lowestEmission = 100;
-  const highestEmission = 450;
-  const lowestWaterUse = 0;
-  const highestWaterUse = 100;
-  const lowestFuelUse = 0;
-  const highestFuelUse = 1000;
+  const [CurrentImage, setCurrentImage] = useState(0);
+  const [CurrentSize, setCurrentSize] = useState(0);
+  const [CurrentColor, setCurrentColor] = useState(0);
+  const [AddedModal, setAddedModal] = useState(false);
 
-  const hookOptions = {
-    // ... other options
-    refetchInterval: 2000, // Revalidate every 2 seconds
-  };
-  const perPage = 100;
+  const [Loading, setLoading] = useState(false);
 
-  const { QueryManufacturingAll, QueryTransportationAll, QueryMaterialProcessingAll, QueryRawMaterialExtractionAll } =
-    useEsgobservabilitydemoEsgobservabilitydemo();
+  const [Zoomed, setZoomed] = useState(false);
+  const [ZoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
 
-  const rawMaterialAll = QueryRawMaterialExtractionAll(
-    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
-    hookOptions,
-    perPage,
-  );
+  const [GalModalOpenState, setGalModalOpenState] = useState(false);
 
-  const materialProcessingAll = QueryMaterialProcessingAll(
-    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
-    hookOptions,
-    perPage,
-  );
-
-  const manufacturingAll = QueryManufacturingAll(
-    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
-    hookOptions,
-    perPage,
-  );
-
-  const transportationAll = QueryTransportationAll(
-    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": true },
-    hookOptions,
-    perPage,
-  );
-
-  // Handle form submit
-  const handleSubmitRawMaterials = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault(); // Prevent default form submission
-    console.log("Form submitted with input:");
-    // generate random values for emission and water use
-    const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
-    const randomWaterUse = Math.random() * (highestWaterUse - lowestWaterUse) + lowestWaterUse;
-
-    // create transaction to create raw material data
-    try {
-      const tx_result = await lcaClient.EsgobservabilitydemoEsgobservabilitydemo.tx.sendMsgCreateRawMaterialExtraction({
-        value: {
-          creator: creatorAddressObject?.address,
-          emissions: randomEmission?.toString(),
-          resourceType: "Silver",
-          waterUse: randomWaterUse?.toString(),
+  const [data, setData] = useState({
+    sizes: [7, 8, 9, 10, 11],
+    material: "some data",
+    options: {
+      silver: {
+        name: "silver",
+        options: {
+          "7": {
+            size: 7,
+            color: "silver",
+            quantity: 4,
+            price: 440,
+          },
+          "8": {
+            color: "silver",
+            quantity: 4,
+            size: 8,
+            price: 440,
+          },
+          "9": {
+            color: "silver",
+            price: 440,
+            quantity: 4,
+            size: 9,
+          },
+          "10": {
+            quantity: 3,
+            price: 440,
+            size: 10,
+            color: "silver",
+          },
         },
-        fee: {
-          amount: [{ amount: "0", denom: "stake" }],
-          gas: "200000",
+        sizes: [7, 8, 9, 10],
+      },
+      gold: {
+        sizes: [11],
+        name: "gold",
+        options: {
+          "11": {
+            size: 11,
+            quantity: 2,
+            price: 440,
+            color: "gold",
+          },
         },
-        memo: "",
-      });
-      alert("Transaction Submitted. Wait for confirmation");
-    } catch (error) {
-      console.error("Error during handle submit: ", error);
-    }
-  };
+      },
+    },
+    category: ["a", "b", "c"],
+    description:
+      "Introducing our Stainless Steel Striped Pattern Ring—a sleek and sophisticated accessory that adds a touch of modern elegance to your style. Crafted with precision, this ring features a stylish striped pattern that exudes contemporary charm. Made from high-quality stainless steel, it offers durability and resistance to tarnishing, ensuring long-lasting wear. The polished finish enhances the ring's visual appeal, making it a versatile choice for both casual and formal occasions. Elevate your look with this minimalist yet eye-catching Stainless Steel Striped Pattern Ring, a perfect blend of timeless design and enduring quality.\n",
+    reviews: [],
+    status: "active",
+    UpdateLog: ["Mon Mar 18 2024 14:03:47 GMT+0600 (Bangladesh Standard Time) ---by saad.thebridge@gmail.com"],
+    minPrice: 440,
+    homeCategory: "hot-sale",
+    tm: 3,
+    widths: [null],
+    id: "0A9WY7IL1710748784125sa",
+    gender: "male",
+    title: "striped pattern ring",
+    images: [
+      "https://images.unsplash.com/photo-1556228578-567ba127e37f?q=80&w=2351&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1556228578-567ba127e37f?q=80&w=2351&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      "https://images.unsplash.com/photo-1556228578-567ba127e37f?q=80&w=2351&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    ],
+    type: "ring",
+    colors: ["silver", "gold"],
+    soldThisMonth: 0,
+    specifications: ["stainless steel", ""],
+  });
 
-  const handleSubmitMaterialProcessing = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault(); // Prevent default form submission
-    console.log("Form submitted with input:");
-    // generate random values for emission and water use
-    const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
-    const randomWaterUse = Math.random() * (highestWaterUse - lowestWaterUse) + lowestWaterUse;
+  const coverImage = useRef();
 
-    const value = {
-      creator: creatorAddressObject?.address,
-      emissions: randomEmission?.toString(),
-      materialType: "Refined Silver",
-      waterUse: randomWaterUse?.toString(),
-    };
-
-    console.log("vlue: ", value);
-
-    // create transaction to create material processing data
-    try {
-      const tx_result = await lcaClient.EsgobservabilitydemoEsgobservabilitydemo.tx.sendMsgCreateMaterialProcessing({
-        value: {
-          creator: creatorAddressObject?.address,
-          emissions: randomEmission?.toString(),
-          materialType: "Refined Silver",
-          waterUse: randomWaterUse?.toString(),
-        },
-        fee: {
-          amount: [{ amount: "0", denom: "stake" }],
-          gas: "200000",
-        },
-        memo: "",
-      });
-      alert("Transaction Submitted. Wait for confirmation");
-    } catch (error) {
-      console.error("Error during handle submit: ", error);
-    }
-  };
-
-  const handleSubmitManufacturing = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault(); // Prevent default form submission
-    console.log("Form submitted with input:");
-    // generate random values for emission and water use
-    const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
-    const randomWaterUse = Math.random() * (highestWaterUse - lowestWaterUse) + lowestWaterUse;
-
-    // create transaction to create manufacturing data
-    try {
-      const tx_result = await lcaClient.EsgobservabilitydemoEsgobservabilitydemo.tx.sendMsgCreateManufacturing({
-        value: {
-          creator: creatorAddressObject?.address,
-          emissions: randomEmission?.toString(),
-          componentType: "Refined Silver",
-          waterUse: randomWaterUse?.toString(),
-        },
-        fee: {
-          amount: [{ amount: "0", denom: "stake" }],
-          gas: "200000",
-        },
-        memo: "",
-      });
-      alert("Transaction Submitted. Wait for confirmation");
-    } catch (error) {
-      console.error("Error during handle submit: ", error);
-    }
-  };
-
-  const handleSubmitTransportation = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault(); // Prevent default form submission
-    console.log("Form submitted with input:");
-    // generate random values for emission and water use
-    const randomEmission = Math.random() * (highestEmission - lowestEmission) + lowestEmission;
-    const fuelUse = Math.random() * (highestFuelUse - lowestFuelUse) + lowestFuelUse;
-
-    // create transaction to create transportation data
-    try {
-      const tx_result = await lcaClient.EsgobservabilitydemoEsgobservabilitydemo.tx.sendMsgCreateTransportation({
-        value: {
-          creator: creatorAddressObject?.address,
-          emissions: randomEmission?.toString(),
-          transportationType: "Refined Silver",
-          fuelUse: fuelUse?.toString(),
-        },
-        fee: {
-          amount: [{ amount: "0", denom: "stake" }],
-          gas: "200000",
-        },
-        memo: "",
-      });
-      alert("Transaction Submitted. Wait for confirmation");
-    } catch (error) {
-      console.error("Error during handle submit: ", error);
-    }
+  const handleMouseMove = (e) => {
+    const { left, top, width, height } = e.target.getBoundingClientRect();
+    const x = ((e.pageX - left) / width) * 100;
+    const y = ((e.pageY - top) / height) * 100;
+    setZoomPosition({
+      x: x < 0 ? 0 : x > 100 ? 100 : x,
+      y: y < 0 ? 0 : y > 100 ? 100 : y,
+    });
   };
 
   return (
-    <div>
-      <div className="container mx-auto">
-        <div className="grid grid-cols-2">
-          <div>
-            <IgntAssets className="px-2.5 mb-10" displayLimit={3} />
-            <IgntTransactions className="px-2.5" />
-            <div>
-              <div>
-                <label htmlFor="textbox1">Textbox 1:</label>
-                <input type="text" id="textbox1" name="textbox1" />
-              </div>
-              <div>
-                <label htmlFor="textbox2">Textbox 2:</label>
-                <input type="text" id="textbox2" name="textbox2" />
-              </div>
-              <div>
-                <label htmlFor="textbox3">Textbox 3:</label>
-                <input type="text" id="textbox3" name="textbox3" />
-              </div>
-              <div>
-                <label htmlFor="textbox4">Textbox 4:</label>
-                <input type="text" id="textbox4" name="textbox4" />
+    <>
+      <div className="am-esg-marketplace">
+        <div className="prod">
+          <section className="prod-image">
+            <div
+              className="prod-image-cover"
+              ref={coverImage}
+              // role="button"
+              // onClick={() => setGalModalOpenState(true)}
+              onMouseMove={handleMouseMove}
+              onMouseEnter={() => setZoomed(true)}
+              onMouseLeave={() => setZoomed(false)}
+            >
+              <img src={data?.images && data.images[CurrentImage]} alt={data?.title} />
+            </div>
+            <div className="prod-images">
+              <div className="prod-images-con">
+                {data?.images &&
+                  Array.isArray(data.images) &&
+                  data.images.length > 0 &&
+                  React.Children.toArray(
+                    data.images.map((item, index) => (
+                      <button
+                        className={`${CurrentImage === index ? "active" : ""}`}
+                        onClick={() => setCurrentImage(index)}
+                      >
+                        <img src={item} alt={`${data?.id} visual ${index + 1}`} />
+                      </button>
+                    )),
+                  )}
               </div>
             </div>
-            <div>
-              <div>
-                <button onClick={(e) => handleSubmitRawMaterials(e)}>Submit Raw Materials</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitMaterialProcessing(e)}>Submit Material Processing</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitManufacturing(e)}>Submit Manufacturing</button>
-              </div>
-              <div>
-                <button onClick={(e) => handleSubmitTransportation(e)}>Submit Transportation</button>
-              </div>
+          </section>
+          <section className="prod-data">
+            <h1>{data?.title}</h1>
+            <div className="pAndR">
+              <h2>
+                {data?.discount && !isNaN(data?.discount) ? (
+                  <>
+                    &#2547;
+                    {data?.options &&
+                      data.options?.[data?.colors[CurrentColor]]?.options?.[
+                        data.options?.[data?.colors[CurrentColor]]?.sizes[CurrentSize]
+                      ]?.price - data.discount}
+                    <br />
+                    <span>
+                      &#2547;
+                      {data?.options &&
+                        data.options?.[data?.colors[CurrentColor]]?.options?.[
+                          data.options?.[data?.colors[CurrentColor]]?.sizes[CurrentSize]
+                        ]?.price}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    &#2547;
+                    {data?.options &&
+                      data.options?.[data?.colors[CurrentColor]]?.options?.[
+                        data.options?.[data?.colors[CurrentColor]]?.sizes[CurrentSize]
+                      ]?.price}
+                  </>
+                )}
+              </h2>
+              <div className="ratings"></div>
             </div>
-          </div>
-          <IgntTransfer className="px-2.5 w-4/6 mx-auto" />
+            <p>
+              Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus rem illum incidunt tempore possimus
+              tenetur.
+            </p>
+            <h3>Colors:</h3>
+            <div className="prod-data-colors">
+              {data?.colors &&
+                Array.isArray(data.colors) &&
+                data.colors.length > 0 &&
+                React.Children.toArray(
+                  data.colors.map((item, index) => (
+                    <button
+                      className={`${CurrentColor === index ? "active" : ""}`}
+                      onClick={() => setCurrentColor(index)}
+                    >
+                      {item}
+                    </button>
+                  )),
+                )}
+            </div>
+            {data?.options &&
+            data.options?.[data?.colors[CurrentColor]]?.options?.[
+              data.options?.[data?.colors[CurrentColor]]?.sizes[CurrentSize]
+            ]?.width ? (
+              <h3>
+                Width:{" "}
+                {
+                  data.options?.[data?.colors[CurrentColor]]?.options?.[
+                    data.options?.[data?.colors[CurrentColor]]?.sizes[CurrentSize]
+                  ]?.width
+                }
+              </h3>
+            ) : (
+              ""
+            )}
+            <h3>Sizes:</h3>
+            <div className="prod-data-sizes">
+              {data?.options &&
+                data.options?.[data?.colors[CurrentColor]]?.sizes &&
+                Array.isArray(data?.options && data.options?.[data?.colors[CurrentColor]]?.sizes) &&
+                data?.options &&
+                data.options?.[data?.colors[CurrentColor]]?.sizes.length > 0 &&
+                React.Children.toArray(
+                  data?.options &&
+                    data.options?.[data?.colors[CurrentColor]]?.sizes.map((item, index) => (
+                      <button
+                        className={`${CurrentSize === index ? "active" : ""}`}
+                        onClick={() => setCurrentSize(index)}
+                      >
+                        {!isNaN(item) ? Math.floor(item) : item}
+                      </button>
+                    )),
+                )}
+            </div>
+            {(data?.options
+              ? data.options?.[data?.colors[CurrentColor]]?.options?.[
+                  data.options?.[data?.colors[CurrentColor]]?.sizes[CurrentSize]
+                ]?.quantity -
+                data.options?.[data?.colors[CurrentColor]]?.options?.[
+                  data.options?.[data?.colors[CurrentColor]]?.sizes[CurrentSize]
+                ]?.sold -
+                data.options?.[data?.colors[CurrentColor]]?.options?.[
+                  data.options?.[data?.colors[CurrentColor]]?.sizes[CurrentSize]
+                ]?.reserved
+              : 0) < 1 && (
+              <div className="aj-error-chip" style={{ marginRight: "auto" }}>
+                Sold Out
+              </div>
+            )}
+            <button className="prod-data-addToCart">Add To Cart</button>
+            <div className="revelers">
+              <Revealer summary={<strong>Product Details</strong>}>{data?.description}</Revealer>
+              <Revealer summary={<strong>Specification</strong>}>
+                {data?.specifications &&
+                  Array.isArray(data.specifications) &&
+                  data.specifications.length > 0 &&
+                  React.Children.toArray(data.specifications.map((item) => <p style={{ margin: "8px 0" }}>{item}</p>))}
+              </Revealer>
+              <Revealer summary={<strong>Product Material</strong>}>{data?.material}</Revealer>
+            </div>
+            {Zoomed && (
+              <div
+                className="zoom-canvas"
+                style={{
+                  transition: "backgroundPosition 0ms ease",
+                  backgroundImage: `url('${data?.images && data.images[CurrentImage]}')`,
+                  backgroundPosition: `${ZoomPosition?.x ? ZoomPosition.x : "0"}% ${
+                    ZoomPosition?.y ? ZoomPosition.y : "0"
+                  }%`,
+                }}
+              ></div>
+            )}
+          </section>
         </div>
       </div>
-    </div>
+    </>
   );
 }
