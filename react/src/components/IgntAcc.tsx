@@ -97,7 +97,7 @@ export default function IgntAcc() {
         >
           <div className="flex items-center">
             <IgntProfileIcon address={state.keplrParams?.bech32Address} />
-            <span className="mx-2">{getAccName()}</span>
+            <span className="mx-2">{"Wallet"}</span>
           </div>
         </div>
       ) : (
@@ -114,7 +114,7 @@ export default function IgntAcc() {
       {state.accountDropdown && wallet && (
         <IgntAccDropdown
           wallet={wallet as Wallet}
-          accName={getAccName()}
+          accName={"Wallet"}
           disconnect={disconnect}
           close={() => {
             setState((oldState) => ({ ...oldState, accountDropdown: false }));

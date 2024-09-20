@@ -4,6 +4,7 @@ import { useResetState } from "../def-hooks/ResetStateContext";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
 import { hookOptions, perPage } from "../utils/library";
 import IgntAcc from "./IgntAcc";
+import { useNavigate } from "react-router-dom";
 
 type MenuItem = {
   label: string;
@@ -13,8 +14,11 @@ type MenuItem = {
 interface IgntHeaderProps {
   navItems: Array<MenuItem>;
 }
-export default function IgntHeader(props: IgntHeaderProps) {
+export default function IgntHeaderrrr(props: IgntHeaderProps) {
   const { navItems } = props;
+
+  const navigate = useNavigate();
+
 
   const { setResetState } = useResetState();
   const { QueryManufacturingAll, QueryTransportationAll, QueryMaterialProcessingAll, QueryRawMaterialExtractionAll } =
@@ -66,12 +70,21 @@ export default function IgntHeader(props: IgntHeaderProps) {
     ]);
   };
 
+  const handleClick = () => {
+    navigate("/");
+  };
+
   return (
     <header className="flex p-5 bg-[var(--am-esg-white)] sticky top-0 left-0 right-0 z-50">
       {/* <IgntLogo className="mx-2.5" /> */}
-      <a href="/" className="am-esg-logo flex items-center">
-        EY Compass Observability
-      </a>
+      <span
+      role="button"
+      className="am-esg-logo flex items-center"
+      onClick={handleClick}
+      style={{ cursor: "pointer" }} // Optional: Make it clear that it's clickable
+    >
+      EY Compass Observability
+    </span>
       <nav className="flex flex-1 justify-between">
         <ul className="flex items-center">
           {navItems.map((item) => (
@@ -85,6 +98,8 @@ export default function IgntHeader(props: IgntHeaderProps) {
           <button className="am-esg-reload text-[2rem]" onClick={updateState}>
             <IoReloadCircle />
           </button>
+        </div>
+        <div>
           <IgntAcc />
         </div>
       </nav>
