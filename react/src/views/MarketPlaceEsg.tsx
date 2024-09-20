@@ -12,8 +12,9 @@ import {
   hookOptions,
   perPage,
 } from "../utils/library";
+import Revealer from "../components/marketplace/Revealer";
 
-export default function ProductQR() {
+export default function MarketPlaceEsg() {
   const { QueryManufacturingAll, QueryTransportationAll, QueryMaterialProcessingAll, QueryRawMaterialExtractionAll } =
     useEsgobservabilitydemoEsgobservabilitydemo();
   const { resetState: latestIndexes } = useResetState();
@@ -103,33 +104,32 @@ export default function ProductQR() {
   ]);
 
   return (
-    <main className="am-esg-product-qr">
-      <div className="left">
-        <img src="/media/table.png" alt="table" />
-      </div>
-      {isAllTraced && (
-        <div className="right">
-          <div className="logo">
-            <img src="/media/logo.png" alt="EY Logo" />
+    isAllTraced && (
+      <Revealer summary={<strong>ESG Ratings</strong>} openByDefault>
+        <main className="am-esg-product-qr">
+          <div className="right">
+            <div className="logo">
+              <img src="/media/logo.png" alt="EY Logo" />
+            </div>
+            <div className="ratings">
+              {RatingsData &&
+                Array.isArray(RatingsData) &&
+                RatingsData.length > 0 &&
+                React.Children.toArray(
+                  RatingsData.map((rate) => (
+                    <div className="rating">
+                      <p>{rate?.title}</p>
+                      <StarRating rating={rate?.point} />
+                    </div>
+                  )),
+                )}
+            </div>
+            {/* <div className="table-image">
+          <img src="/media/table-2.png" alt="table" />
+        </div> */}
           </div>
-          <div className="ratings">
-            {RatingsData &&
-              Array.isArray(RatingsData) &&
-              RatingsData.length > 0 &&
-              React.Children.toArray(
-                RatingsData.map((rate) => (
-                  <div className="rating">
-                    <p>{rate?.title}</p>
-                    <StarRating rating={rate?.point} />
-                  </div>
-                )),
-              )}
-          </div>
-          <div className="table-image">
-            <img src="/media/table-2.png" alt="table" />
-          </div>
-        </div>
-      )}
-    </main>
+        </main>
+      </Revealer>
+    )
   );
 }

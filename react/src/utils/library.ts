@@ -86,6 +86,22 @@ export function getFuelUseBenchmark(fuelUsed: string): number {
   }
 }
 
+export function getAverageValue(emissions: (string | null | undefined)[]): string {
+  const parseEmission = (value: string | null | undefined): number => {
+    if (value === null || value === undefined || isNaN(Number(value))) {
+      return 0.0;
+    }
+    return parseFloat(value);
+  };
+
+  const parsedEmissions = emissions.map(parseEmission);
+
+  const total = parsedEmissions.reduce((sum, emission) => sum + emission, 0);
+  const average = total / parsedEmissions.length;
+
+  return average.toFixed(2);
+}
+
 export const lowestEmission = 10;
 export const highestEmission = 450;
 export const lowestFuelUse = 0;

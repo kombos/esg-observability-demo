@@ -5,6 +5,7 @@ import { FaMinusCircle } from "react-icons/fa";
 import { SiTicktick } from "react-icons/si";
 import { TbWritingSign, TbWritingSignOff } from "react-icons/tb";
 import { StarRating } from "../components/StarRating";
+import { useResetState } from "../def-hooks/ResetStateContext";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
 import {
   getEmissionBenchmark,
@@ -14,7 +15,6 @@ import {
   hookOptions,
   perPage,
 } from "../utils/library";
-import { useResetState } from "../def-hooks/ResetStateContext";
 
 export default function Traceability() {
   const [Sign1, setSign1] = useState(true);
@@ -37,7 +37,6 @@ export default function Traceability() {
     perPage,
   );
 
-  const rawMaterialLatestCount = rawMaterialAll?.data?.pages?.[0]?.pagination?.total || "0";
   const rawMaterialLatestIndex = isNaN(Number(latestIndexes[0])) ? 0 : Number(latestIndexes[0]);
   const rawMaterialLatestValue =
     rawMaterialAll?.data?.pages?.[0]?.RawMaterialExtraction?.[rawMaterialLatestIndex] || {};
@@ -48,7 +47,6 @@ export default function Traceability() {
     perPage,
   );
 
-  const materialProcessingLatestCount = materialProcessingAll?.data?.pages?.[0]?.pagination?.total || "0";
   const materialProcessingLatestIndex = isNaN(Number(latestIndexes[1])) ? 0 : Number(latestIndexes[1]);
   const materialProcessingLatestValue =
     materialProcessingAll?.data?.pages?.[0]?.MaterialProcessing?.[materialProcessingLatestIndex] || {};
@@ -59,7 +57,6 @@ export default function Traceability() {
     perPage,
   );
 
-  const manufacturingLatestCount = manufacturingAll?.data?.pages?.[0]?.pagination?.total || "0";
   const manufacturingLatestIndex = isNaN(Number(latestIndexes[2])) ? 0 : Number(latestIndexes[2]);
   const manufacturingLatestValue = manufacturingAll?.data?.pages?.[0]?.Manufacturing?.[manufacturingLatestIndex] || {};
 
@@ -69,29 +66,9 @@ export default function Traceability() {
     perPage,
   );
 
-  const transportationLatestCount = transportationAll?.data?.pages?.[0]?.pagination?.total || "0";
   const transportationLatestIndex = isNaN(Number(latestIndexes[3])) ? 0 : Number(latestIndexes[3]);
   const transportationLatestValue =
     transportationAll?.data?.pages?.[0]?.Transportation?.[transportationLatestIndex] || {};
-
-  /* const handleResetFlow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    event.preventDefault(); // Prevents default behavior, if needed
-    console.log("Button clicked!", manufacturingAll);
-    setLatestIndexes([
-      rawMaterialLatestCount,
-      materialProcessingLatestCount,
-      manufacturingLatestCount,
-      transportationLatestCount,
-    ]);
-  }; */
-
-  const step = {
-    title: "Raw Material Extracting",
-    hash: "asdfjakjhwnan",
-    primaryKey: "asdfjakjhwnan",
-    otherKey: "asdfjakjhwnan",
-    state: "completed",
-  };
 
   const DATA = {
     title: "EPD Overview",
@@ -198,6 +175,7 @@ export default function Traceability() {
   );
 
   const isAllTraced = DATA.RatingsData.every((rating) => rating.isTraced) && transportationRatingsData.isTraced;
+  console.log("transportationLatestIndex: ", transportationLatestIndex);
 
   return (
     <div className="am-esg-signature">
@@ -267,7 +245,7 @@ export default function Traceability() {
               {isAllTraced ? <SiTicktick /> : <FaMinusCircle />}{" "}
               {isAllTraced ? <TbWritingSign /> : <TbWritingSignOff />}
             </div>
-          {/*   <div className={`sign ${isAllTraced ? "active" : ""}`}>
+            {/*   <div className={`sign ${isAllTraced ? "active" : ""}`}>
               <button onClick={handleResetFlow}>Submit</button>
             </div> */}
           </div>

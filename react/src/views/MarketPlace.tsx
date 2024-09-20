@@ -1,19 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import React, { useRef, useState } from "react";
 import Revealer from "../components/marketplace/Revealer";
+import MarketPlaceEsg from "./MarketPlaceEsg";
 
 export default function MarketPlace() {
   const [CurrentImage, setCurrentImage] = useState(0);
   const [CurrentSize, setCurrentSize] = useState(0);
   const [CurrentColor, setCurrentColor] = useState(0);
-  const [AddedModal, setAddedModal] = useState(false);
-
-  const [Loading, setLoading] = useState(false);
-
   const [Zoomed, setZoomed] = useState(false);
   const [ZoomPosition, setZoomPosition] = useState({ x: 0, y: 0 });
-
-  const [GalModalOpenState, setGalModalOpenState] = useState(false);
 
   const [data, setData] = useState({
     sizes: [7, 8, 9, 10, 11],
@@ -74,7 +68,7 @@ export default function MarketPlace() {
     widths: [null],
     id: "0A9WY7IL1710748784125sa",
     gender: "male",
-    title: "striped pattern ring",
+    title: "Striped Pattern Silver Ring",
     images: ["/media/marketplace.webp"],
     type: "ring",
     colors: ["silver", "gold"],
@@ -238,7 +232,7 @@ export default function MarketPlace() {
                   data.specifications.length > 0 &&
                   React.Children.toArray(data.specifications.map((item) => <p style={{ margin: "8px 0" }}>{item}</p>))}
               </Revealer>
-              <Revealer summary={<strong>Product Material</strong>}>{data?.material}</Revealer>
+                <MarketPlaceEsg />
             </div>
             {Zoomed && (
               <div
