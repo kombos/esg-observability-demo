@@ -2,14 +2,11 @@ import React from "react";
 import { BsFillPuzzleFill } from "react-icons/bs";
 import { useAddressContext } from "../../def-hooks/addressContext";
 import { useClient } from "../../hooks/useClient";
+import { highestEmission, highestWaterUse, lowestEmission, lowestWaterUse } from "../../utils/library";
 
 export default function RawMaterial() {
   const lcaClient = useClient();
   const creatorAddressObject = useAddressContext();
-  const lowestEmission = 100;
-  const highestEmission = 450;
-  const lowestWaterUse = 0;
-  const highestWaterUse = 100;
   const stakeholder = "cosmos199sfwptd2u7tq8gu5gqrsj47qlf5u9s7qqnfht";
 
   // Handle form submit

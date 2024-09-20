@@ -53,6 +53,16 @@ input[type="search"]::-webkit-search-results-decoration {
   -webkit-appearance: none;
 }
 
+.stars {
+  display: flex;
+  & > span {
+    color: var(--am-esg-white-100);
+    &.active {
+      color: var(--am-esg-green);
+    }
+  }
+}
+
 .am-esg {
   &-logo {
     font-size: 1.4rem;

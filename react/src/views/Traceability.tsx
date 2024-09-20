@@ -1,12 +1,12 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useState } from "react";
-import { BsFillStarFill } from "react-icons/bs";
 import { FaMinusCircle } from "react-icons/fa";
 import { SiTicktick } from "react-icons/si";
 import { TbWritingSign, TbWritingSignOff } from "react-icons/tb";
+import { StarRating } from "../components/StarRating";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
-import { getObjectHash } from "../utils/library";
+import { getEmissionBenchmark, getFuelUseBenchmark, getObjectHash, getWaterUseBenchmark } from "../utils/library";
 
 export default function Traceability() {
   const [Sign1, setSign1] = useState(true);
@@ -129,43 +129,73 @@ export default function Traceability() {
     RatingsData: [
       {
         title: "Raw Material Extraction Stage",
-        CO2value: "0.2",
-        H2Ovalue: "0.2",
-        point: 4,
+        CO2value: rawMaterialLatestValue?.emissions || "0.0000",
+        H2Ovalue: rawMaterialLatestValue?.waterUse || "0.0000",
+        emissionPoint: rawMaterialLatestValue?.emissions ? getEmissionBenchmark(rawMaterialLatestValue?.emissions) : 0,
+        waterUsePoint: rawMaterialLatestValue?.waterUse ? getWaterUseBenchmark(rawMaterialLatestValue?.waterUse) : 0,
+        isTraced: rawMaterialLatestValue?.id ? true : false,
       },
       {
         title: "Material Processing Stage",
-        CO2value: "0.2",
-        H2Ovalue: "0.2",
-        point: 4,
+        CO2value: materialProcessingLatestValue?.emissions || "0.0000",
+        H2Ovalue: materialProcessingLatestValue?.waterUse || "0.0000",
+        emissionPoint: materialProcessingLatestValue?.emissions
+          ? getEmissionBenchmark(materialProcessingLatestValue?.emissions)
+          : 0,
+        waterUsePoint: materialProcessingLatestValue?.waterUse
+          ? getWaterUseBenchmark(materialProcessingLatestValue?.waterUse)
+          : 0,
+        isTraced: materialProcessingLatestValue?.id ? true : false,
       },
       {
         title: "Manufacturing Stage",
-        CO2value: "0.2",
-        H2Ovalue: "0.2",
-        point: 4,
-      },
-      {
-        title: "Distribution Stage",
-        CO2value: "0.2",
-        H2Ovalue: "0.2",
-        point: 3,
+        CO2value: manufacturingLatestValue?.emissions || "0.0000",
+        H2Ovalue: manufacturingLatestValue?.waterUse || "0.0000",
+        emissionPoint: manufacturingLatestValue?.emissions
+          ? getEmissionBenchmark(manufacturingLatestValue?.emissions)
+          : 0,
+        waterUsePoint: manufacturingLatestValue?.waterUse
+          ? getWaterUseBenchmark(manufacturingLatestValue?.waterUse)
+          : 0,
+        isTraced: manufacturingLatestValue?.id ? true : false,
       },
     ],
   };
 
-  console.log("rawMaterialLatestCount: ", rawMaterialLatestCount);
-  console.log("rawMaterialLatestIndex: ", rawMaterialLatestIndex);
-  console.log("rawMaterialLatestValue: ", rawMaterialLatestValue);
-  console.log("materialProcessingLatestCount: ", materialProcessingLatestCount);
-  console.log("materialProcessingLatestIndex: ", materialProcessingLatestIndex);
-  console.log("materialProcessingLatestValue: ", materialProcessingLatestValue);
-  console.log("manufacturingLatestCount: ", manufacturingLatestCount);
-  console.log("manufacturingLatestIndex: ", manufacturingLatestIndex);
-  console.log("manufacturingLatestValue: ", manufacturingLatestValue);
-  console.log("transportationLatestCount: ", transportationLatestCount);
-  console.log("transportationLatestIndex: ", transportationLatestIndex);
-  console.log("transportationLatestValue: ", transportationLatestValue);
+  const transportationRatingsData = {
+    title: "Distribution & Transportation Stage",
+    CO2value: transportationLatestValue?.emissions || "0.0000",
+    fuelValue: transportationLatestValue?.fuelUse || "0.0000",
+    emissionPoint: transportationLatestValue?.emissions
+      ? getEmissionBenchmark(transportationLatestValue?.emissions)
+      : 0,
+    fuelUsePoint: transportationLatestValue?.fuelUse ? getFuelUseBenchmark(transportationLatestValue?.fuelUse) : 0,
+    isTraced: transportationLatestValue?.id ? true : false,
+  };
+
+  const transportationEPDJSX = transportationRatingsData?.isTraced && (
+    <div className="rating">
+      <p style={{ color: "black", fontWeight: "bold" }}>{transportationRatingsData?.title}</p>
+      <div className="stars">
+        <div>
+          <div>
+            <span className="rating-value" style={{ color: "grey" }}>
+              Carbon Emissions - {transportationRatingsData?.CO2value} kg CO2
+            </span>
+          </div>
+          <StarRating rating={transportationRatingsData?.emissionPoint} />
+          <div>
+            <span className="rating-value" style={{ color: "grey" }}>
+              Fuel Use - {transportationRatingsData?.fuelValue} kg
+            </span>
+          </div>
+          <StarRating rating={transportationRatingsData?.fuelUsePoint} />
+        </div>
+      </div>
+    </div>
+  );
+
+  const isAllTraced = DATA.RatingsData.every((rating) => rating.isTraced) && transportationRatingsData.isTraced;
 
   return (
     <div className="am-esg-signature">
@@ -199,44 +229,43 @@ export default function Traceability() {
               Array.isArray(DATA?.RatingsData) &&
               DATA?.RatingsData.length > 0 &&
               React.Children.toArray(
-                DATA?.RatingsData.map((rate) => (
-                  <div className="rating">
-                    <p style={{ color: "black", fontWeight: "bold" }}>{rate?.title}</p>
-                    <div className="stars">
-                      <div>
-                        <div>
-                          <span className="rating-value" style={{ color: "grey" }}>
-                            Carbon Emissions - {rate.CO2value} kg of CO2-equivalent
-                          </span>
-                        </div>
-                        <div>
-                          <span className="rating-value" style={{ color: "grey" }}>
-                            Water Use - {rate.H2Ovalue} kg of H2O
-                          </span>
+                DATA?.RatingsData.map(
+                  (rate) =>
+                    rate?.isTraced && (
+                      <div className="rating">
+                        <p style={{ color: "black", fontWeight: "bold" }}>{rate?.title}</p>
+                        <div className="stars">
+                          <div>
+                            <div>
+                              <span className="rating-value" style={{ color: "grey" }}>
+                                Carbon Emissions - {rate?.CO2value} kg CO2
+                              </span>
+                            </div>
+                            <StarRating rating={rate?.emissionPoint} />
+                            <div>
+                              <span className="rating-value" style={{ color: "grey" }}>
+                                Water Use - {rate?.H2Ovalue} kg H2O
+                              </span>
+                            </div>
+                            <StarRating rating={rate?.waterUsePoint} />
+                          </div>
                         </div>
                       </div>
-                    </div>
-                    <div className="stars">
-                      {React.Children.toArray(
-                        [...Array(5)].map((el, ind) => (
-                          <span className={ind < rate?.point ? "active" : ""}>
-                            <BsFillStarFill />
-                          </span>
-                        )),
-                      )}
-                    </div>
-                  </div>
-                )),
+                    ),
+                ),
               )}
+            {transportationEPDJSX}
           </div>
           <div className="signs">
-            <div className={`sign ${Sign1 ? "active" : ""}`}>
-              {Sign1 ? <SiTicktick /> : <FaMinusCircle />} {Sign1 ? <TbWritingSign /> : <TbWritingSignOff />}
+            <div className={`sign ${isAllTraced ? "active" : ""}`}>
+              {isAllTraced ? <SiTicktick /> : <FaMinusCircle />}{" "}
+              {isAllTraced ? <TbWritingSign /> : <TbWritingSignOff />}
             </div>
-            <div className={`sign ${Sign2 ? "active" : ""}`}>
-              {Sign2 ? <SiTicktick /> : <FaMinusCircle />} {Sign1 ? <TbWritingSign /> : <TbWritingSignOff />}
+            <div className={`sign ${isAllTraced ? "active" : ""}`}>
+              {isAllTraced ? <SiTicktick /> : <FaMinusCircle />}{" "}
+              {isAllTraced ? <TbWritingSign /> : <TbWritingSignOff />}
             </div>
-            <div className={`sign ${Sign2 ? "active" : ""}`}>
+            <div className={`sign ${isAllTraced ? "active" : ""}`}>
               <button onClick={handleResetFlow}>Submit</button>
             </div>
           </div>

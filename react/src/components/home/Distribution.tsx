@@ -1,15 +1,12 @@
 import React from "react";
 import { BsFillPuzzleFill } from "react-icons/bs";
-import { useClient } from "../../hooks/useClient";
 import { useAddressContext } from "../../def-hooks/addressContext";
+import { useClient } from "../../hooks/useClient";
+import { highestEmission, highestFuelUse, lowestEmission, lowestFuelUse } from "../../utils/library";
 
 export default function Distribution() {
   const lcaClient = useClient();
   const creatorAddressObject = useAddressContext();
-  const lowestEmission = 100;
-  const highestEmission = 450;
-  const lowestFuelUse = 0;
-  const highestFuelUse = 1000;
   const stakeholder = "cosmos1arfwns32lw99z2jhlyj8cgnjd7c06yf09y8l63";
 
   const handleSubmit = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
@@ -90,7 +87,7 @@ export default function Distribution() {
           "Flow UUID": "5f123a...7b9e",
           Flow: "Diesel fuel consumption during transportation",
           "Method LCIA": "Warming Potential (GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per L"
+          "Characterization Factor": "kg CO₂-equivalents per L",
         },
         {
           Resources: "Truck Transport",
@@ -100,8 +97,8 @@ export default function Distribution() {
           "Flow UUID": "9d6afc...e7d3",
           Flow: "Transportation of silver products to distributor",
           "Method LCIA": "Warming Potential (GWP)",
-          "Characterization Factor": "kg CO₂-equivalents per km"
-        },        
+          "Characterization Factor": "kg CO₂-equivalents per km",
+        },
       ],
     },
     emissions: {
@@ -180,7 +177,9 @@ export default function Distribution() {
       <ul>{React.Children.toArray(DATA?.co_product?.products?.map((li) => <li>{li}</li>))}</ul>
 
       <div className="buttons">
-        <button onClick={handleSubmit} disabled={!creatorAddressObject?.address}>Submit</button>
+        <button onClick={handleSubmit} disabled={!creatorAddressObject?.address}>
+          Submit
+        </button>
       </div>
     </div>
   );
