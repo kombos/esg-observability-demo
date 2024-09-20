@@ -155,8 +155,8 @@ export default function MarketPlace() {
               <div className="ratings"></div>
             </div>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus rem illum incidunt tempore possimus
-              tenetur.
+              The Striped Pattern Silver Ring is a sleek, stylish accessory featuring a modern striped design crafted
+              from high-quality silver, perfect for any occasion.
             </p>
             <h3>Colors:</h3>
             <div className="prod-data-colors">
@@ -232,7 +232,7 @@ export default function MarketPlace() {
                   data.specifications.length > 0 &&
                   React.Children.toArray(data.specifications.map((item) => <p style={{ margin: "8px 0" }}>{item}</p>))}
               </Revealer>
-                <MarketPlaceEsg />
+              <MarketPlaceEsg />
             </div>
             {Zoomed && (
               <div
