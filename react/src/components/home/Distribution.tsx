@@ -180,7 +180,7 @@ export default function Distribution() {
       <ul>{React.Children.toArray(DATA?.co_product?.products?.map((li) => <li>{li}</li>))}</ul>
 
       <div className="buttons">
-        <button onClick={handleSubmit}>Submit</button>
+        <button onClick={handleSubmit} disabled={!creatorAddressObject?.address}>Submit</button>
       </div>
     </div>
   );
