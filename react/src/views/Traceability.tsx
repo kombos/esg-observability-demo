@@ -6,20 +6,22 @@ import { SiTicktick } from "react-icons/si";
 import { TbWritingSign, TbWritingSignOff } from "react-icons/tb";
 import { StarRating } from "../components/StarRating";
 import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
-import { getEmissionBenchmark, getFuelUseBenchmark, getObjectHash, getWaterUseBenchmark } from "../utils/library";
+import {
+  getEmissionBenchmark,
+  getFuelUseBenchmark,
+  getObjectHash,
+  getWaterUseBenchmark,
+  hookOptions,
+  perPage,
+} from "../utils/library";
+import { useResetState } from "../def-hooks/ResetStateContext";
 
 export default function Traceability() {
   const [Sign1, setSign1] = useState(true);
   const [Sign2, setSign2] = useState(false);
 
   // latest reset index values for Raw Material Extraction, Material Processing, Manufacturing and Transportation respectively
-  const [latestIndexes, setLatestIndexes] = useState(["0", "0", "0", "0"]);
-
-  const hookOptions = {
-    // ... other options
-    refetchInterval: 2000, // Revalidate every 2 seconds
-  };
-  const perPage = 100;
+  const { resetState: latestIndexes } = useResetState();
 
   const { QueryManufacturingAll, QueryTransportationAll, QueryMaterialProcessingAll, QueryRawMaterialExtractionAll } =
     useEsgobservabilitydemoEsgobservabilitydemo();
@@ -72,7 +74,7 @@ export default function Traceability() {
   const transportationLatestValue =
     transportationAll?.data?.pages?.[0]?.Transportation?.[transportationLatestIndex] || {};
 
-  const handleResetFlow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+  /* const handleResetFlow = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     event.preventDefault(); // Prevents default behavior, if needed
     console.log("Button clicked!", manufacturingAll);
     setLatestIndexes([
@@ -81,7 +83,7 @@ export default function Traceability() {
       manufacturingLatestCount,
       transportationLatestCount,
     ]);
-  };
+  }; */
 
   const step = {
     title: "Raw Material Extracting",
@@ -265,9 +267,9 @@ export default function Traceability() {
               {isAllTraced ? <SiTicktick /> : <FaMinusCircle />}{" "}
               {isAllTraced ? <TbWritingSign /> : <TbWritingSignOff />}
             </div>
-            <div className={`sign ${isAllTraced ? "active" : ""}`}>
+          {/*   <div className={`sign ${isAllTraced ? "active" : ""}`}>
               <button onClick={handleResetFlow}>Submit</button>
-            </div>
+            </div> */}
           </div>
         </div>
       </aside>

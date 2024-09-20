@@ -92,3 +92,8 @@ export const lowestFuelUse = 0;
 export const highestFuelUse = 1000;
 export const lowestWaterUse = 0;
 export const highestWaterUse = 100;
+export const hookOptions = {
+  // ... other options
+  refetchInterval: 2000, // Revalidate every 2 seconds
+};
+export const perPage = 100;

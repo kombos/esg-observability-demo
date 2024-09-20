@@ -1,6 +1,9 @@
-import { IgntLink, IgntLogo } from "@ignt/react-library";
-import IgntAcc from "./IgntAcc";
+import { IgntLink } from "@ignt/react-library";
 import { IoReloadCircle } from "react-icons/io5";
+import { useResetState } from "../def-hooks/ResetStateContext";
+import useEsgobservabilitydemoEsgobservabilitydemo from "../hooks/useEsgobservabilitydemoEsgobservabilitydemo";
+import { hookOptions, perPage } from "../utils/library";
+import IgntAcc from "./IgntAcc";
 
 type MenuItem = {
   label: string;
@@ -12,6 +15,56 @@ interface IgntHeaderProps {
 }
 export default function IgntHeader(props: IgntHeaderProps) {
   const { navItems } = props;
+
+  const { setResetState } = useResetState();
+  const { QueryManufacturingAll, QueryTransportationAll, QueryMaterialProcessingAll, QueryRawMaterialExtractionAll } =
+    useEsgobservabilitydemoEsgobservabilitydemo();
+
+  const rawMaterialAll = QueryRawMaterialExtractionAll(
+    {
+      "pagination.limit": perPage,
+      "pagination.offset": 0,
+      "pagination.count_total": true,
+      "pagination.reverse": false,
+    },
+    hookOptions,
+    perPage,
+  );
+
+  const rawMaterialLatestCount = rawMaterialAll?.data?.pages?.[0]?.pagination?.total || "0";
+
+  const materialProcessingAll = QueryMaterialProcessingAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": false, "pagination.reverse": false },
+    hookOptions,
+    perPage,
+  );
+
+  const materialProcessingLatestCount = materialProcessingAll?.data?.pages?.[0]?.pagination?.total || "0";
+
+  const manufacturingAll = QueryManufacturingAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": false },
+    hookOptions,
+    perPage,
+  );
+
+  const manufacturingLatestCount = manufacturingAll?.data?.pages?.[0]?.pagination?.total || "0";
+
+  const transportationAll = QueryTransportationAll(
+    { "pagination.limit": 100, "pagination.offset": 0, "pagination.count_total": true, "pagination.reverse": false },
+    hookOptions,
+    perPage,
+  );
+
+  const transportationLatestCount = transportationAll?.data?.pages?.[0]?.pagination?.total || "0";
+
+  const updateState = () => {
+    setResetState([
+      rawMaterialLatestCount,
+      materialProcessingLatestCount,
+      manufacturingLatestCount,
+      transportationLatestCount,
+    ]);
+  };
 
   return (
     <header className="flex p-5 bg-[var(--am-esg-white)] sticky top-0 left-0 right-0 z-50">
@@ -29,7 +82,7 @@ export default function IgntHeader(props: IgntHeaderProps) {
         </ul>
 
         <div className="flex items-center gap-3">
-          <button className="am-esg-reload text-[2rem]">
+          <button className="am-esg-reload text-[2rem]" onClick={updateState}>
             <IoReloadCircle />
           </button>
           <IgntAcc />
