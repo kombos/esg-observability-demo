@@ -109,7 +109,8 @@ export default function MarketPlaceEsg() {
         <main className="am-esg-product-qr">
           <div className="right">
             <div className="logo">
-              <img src="/media/logo.png" alt="EY Logo" />
+              {/* <img src="/media/logo.png" alt="EY Logo" /> */}
+              <strong>ESG Observability</strong>
             </div>
             <div className="ratings">
               {RatingsData &&
@@ -124,9 +125,6 @@ export default function MarketPlaceEsg() {
                   )),
                 )}
             </div>
-            {/* <div className="table-image">
-          <img src="/media/table-2.png" alt="table" />
-        </div> */}
           </div>
         </main>
       </Revealer>

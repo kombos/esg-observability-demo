@@ -110,7 +110,8 @@ export default function ProductQR() {
       {isAllTraced && (
         <div className="right">
           <div className="logo">
-            <img src="/media/logo.png" alt="EY Logo" />
+            {/* <img src="/media/logo.png" alt="EY Logo" /> */}
+            <strong>ESG Observability</strong>
           </div>
           <div className="ratings">
             {RatingsData &&
