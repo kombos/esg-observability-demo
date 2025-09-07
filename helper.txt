@@ -1,7 +1,15 @@
 install ignite cli v28.4.0
-curl https://get.ignite.com/cli@v28.4.0! | bash
+
+brew install ignite (preferred)
+or
+sudo curl https://get.ignite.com/cli@v28.4.0! | bash
+
+
+
+
 
 ignite app install -g github.com/ignite/apps/spaceship
 ignite app update github.com/ignite/apps/spaceship
 
 
+ignite spaceship deploy ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa
