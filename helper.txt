@@ -1,0 +1,7 @@
+install ignite cli v28.4.0
+curl https://get.ignite.com/cli@v28.4.0! | bash
+
+ignite app install -g github.com/ignite/apps/spaceship
+ignite app update github.com/ignite/apps/spaceship
+
+
