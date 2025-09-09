@@ -1,9 +1,9 @@
-install ignite cli v28.4.0
+Ignite CLI v29 installation:
+=============================
 
 brew install ignite (preferred)
 or
 sudo curl https://get.ignite.com/cli@v28.4.0! | bash
-
 
 
 Scaffolding:
@@ -16,11 +16,15 @@ ignite scaffold list transportation transportationType:string fuelUse:string emi
 ignite scaffold list materialProcessing materialType:string waterUse:string emissions:string --module esgobservabilitydemo
 
 
+ts-client Generation:
+===========
+
+ignite generate ts-client --clear-cache
 
 
+Remote Deployment using Ignite App called Spaceship
+=======================================================
 
 ignite app install -g github.com/ignite/apps/spaceship
 ignite app update github.com/ignite/apps/spaceship
-
-
 ignite spaceship deploy ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa
