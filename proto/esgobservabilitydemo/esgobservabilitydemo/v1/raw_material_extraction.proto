@@ -1,0 +1,13 @@
+syntax = "proto3";
+package esgobservabilitydemo.esgobservabilitydemo.v1;
+
+option go_package = "esgobservabilitydemo/x/esgobservabilitydemo/types";
+
+// RawMaterialExtraction defines the RawMaterialExtraction message.
+message RawMaterialExtraction {
+  uint64 id = 1;
+  string resource_type = 2;
+  string water_use = 3;
+  string emissions = 4;
+  string creator = 5;
+}

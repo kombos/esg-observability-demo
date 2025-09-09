@@ -6,21 +6,36 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 
-	"esg-observability-demo/x/esgobservabilitydemo/types"
+	"esgobservabilitydemo/x/esgobservabilitydemo/keeper"
+	"esgobservabilitydemo/x/esgobservabilitydemo/types"
 )
 
 func TestTransportationMsgServerCreate(t *testing.T) {
-	srv, ctx := setupMsgServer(t)
-	creator := "A"
+	f := initFixture(t)
+	srv := keeper.NewMsgServerImpl(f.keeper)
+
+	creator, err := f.addressCodec.BytesToString([]byte("signerAddr__________________"))
+	require.NoError(t, err)
+
 	for i := 0; i < 5; i++ {
-		resp, err := srv.CreateTransportation(ctx, &types.MsgCreateTransportation{Creator: creator})
+		resp, err := srv.CreateTransportation(f.ctx, &types.MsgCreateTransportation{Creator: creator})
 		require.NoError(t, err)
 		require.Equal(t, i, int(resp.Id))
 	}
 }
 
 func TestTransportationMsgServerUpdate(t *testing.T) {
-	creator := "A"
+	f := initFixture(t)
+	srv := keeper.NewMsgServerImpl(f.keeper)
+
+	creator, err := f.addressCodec.BytesToString([]byte("signerAddr__________________"))
+	require.NoError(t, err)
+
+	unauthorizedAddr, err := f.addressCodec.BytesToString([]byte("unauthorizedAddr___________"))
+	require.NoError(t, err)
+
+	_, err = srv.CreateTransportation(f.ctx, &types.MsgCreateTransportation{Creator: creator})
+	require.NoError(t, err)
 
 	tests := []struct {
 		desc    string
@@ -28,27 +43,28 @@ func TestTransportationMsgServerUpdate(t *testing.T) {
 		err     error
 	}{
 		{
-			desc:    "Completed",
-			request: &types.MsgUpdateTransportation{Creator: creator},
+			desc:    "invalid address",
+			request: &types.MsgUpdateTransportation{Creator: "invalid"},
+			err:     sdkerrors.ErrInvalidAddress,
 		},
 		{
-			desc:    "Unauthorized",
-			request: &types.MsgUpdateTransportation{Creator: "B"},
+			desc:    "unauthorized",
+			request: &types.MsgUpdateTransportation{Creator: unauthorizedAddr},
 			err:     sdkerrors.ErrUnauthorized,
 		},
 		{
-			desc:    "Unauthorized",
+			desc:    "key not found",
 			request: &types.MsgUpdateTransportation{Creator: creator, Id: 10},
 			err:     sdkerrors.ErrKeyNotFound,
+		},
+		{
+			desc:    "completed",
+			request: &types.MsgUpdateTransportation{Creator: creator},
 		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
-			srv, ctx := setupMsgServer(t)
-			_, err := srv.CreateTransportation(ctx, &types.MsgCreateTransportation{Creator: creator})
-			require.NoError(t, err)
-
-			_, err = srv.UpdateTransportation(ctx, tc.request)
+			_, err = srv.UpdateTransportation(f.ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -59,7 +75,17 @@ func TestTransportationMsgServerUpdate(t *testing.T) {
 }
 
 func TestTransportationMsgServerDelete(t *testing.T) {
-	creator := "A"
+	f := initFixture(t)
+	srv := keeper.NewMsgServerImpl(f.keeper)
+
+	creator, err := f.addressCodec.BytesToString([]byte("signerAddr__________________"))
+	require.NoError(t, err)
+
+	unauthorizedAddr, err := f.addressCodec.BytesToString([]byte("unauthorizedAddr___________"))
+	require.NoError(t, err)
+
+	_, err = srv.CreateTransportation(f.ctx, &types.MsgCreateTransportation{Creator: creator})
+	require.NoError(t, err)
 
 	tests := []struct {
 		desc    string
@@ -67,27 +93,28 @@ func TestTransportationMsgServerDelete(t *testing.T) {
 		err     error
 	}{
 		{
-			desc:    "Completed",
-			request: &types.MsgDeleteTransportation{Creator: creator},
+			desc:    "invalid address",
+			request: &types.MsgDeleteTransportation{Creator: "invalid"},
+			err:     sdkerrors.ErrInvalidAddress,
 		},
 		{
-			desc:    "Unauthorized",
-			request: &types.MsgDeleteTransportation{Creator: "B"},
+			desc:    "unauthorized",
+			request: &types.MsgDeleteTransportation{Creator: unauthorizedAddr},
 			err:     sdkerrors.ErrUnauthorized,
 		},
 		{
-			desc:    "KeyNotFound",
+			desc:    "key not found",
 			request: &types.MsgDeleteTransportation{Creator: creator, Id: 10},
 			err:     sdkerrors.ErrKeyNotFound,
+		},
+		{
+			desc:    "completed",
+			request: &types.MsgDeleteTransportation{Creator: creator},
 		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
-			srv, ctx := setupMsgServer(t)
-
-			_, err := srv.CreateTransportation(ctx, &types.MsgCreateTransportation{Creator: creator})
-			require.NoError(t, err)
-			_, err = srv.DeleteTransportation(ctx, tc.request)
+			_, err = srv.DeleteTransportation(f.ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

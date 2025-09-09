@@ -3,19 +3,21 @@ package simulation
 import (
 	"math/rand"
 
-	simappparams "cosmossdk.io/simapp/params"
-	"esg-observability-demo/x/esgobservabilitydemo/keeper"
-	"esg-observability-demo/x/esgobservabilitydemo/types"
 	"github.com/cosmos/cosmos-sdk/baseapp"
+	"github.com/cosmos/cosmos-sdk/client"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	simtypes "github.com/cosmos/cosmos-sdk/types/simulation"
 	"github.com/cosmos/cosmos-sdk/x/simulation"
+
+	"esgobservabilitydemo/x/esgobservabilitydemo/keeper"
+	"esgobservabilitydemo/x/esgobservabilitydemo/types"
 )
 
 func SimulateMsgCreateMaterialProcessing(
-	ak types.AccountKeeper,
+	ak types.AuthKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
+	txGen client.TxConfig,
 ) simtypes.Operation {
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
@@ -28,10 +30,9 @@ func SimulateMsgCreateMaterialProcessing(
 		txCtx := simulation.OperationInput{
 			R:               r,
 			App:             app,
-			TxGen:           simappparams.MakeTestEncodingConfig().TxConfig,
+			TxGen:           txGen,
 			Cdc:             nil,
 			Msg:             msg,
-			MsgType:         msg.Type(),
 			Context:         ctx,
 			SimAccount:      simAccount,
 			ModuleName:      types.ModuleName,
@@ -44,28 +45,43 @@ func SimulateMsgCreateMaterialProcessing(
 }
 
 func SimulateMsgUpdateMaterialProcessing(
-	ak types.AccountKeeper,
+	ak types.AuthKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
+	txGen client.TxConfig,
 ) simtypes.Operation {
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		var (
-			simAccount            = simtypes.Account{}
-			materialProcessing    = types.MaterialProcessing{}
-			msg                   = &types.MsgUpdateMaterialProcessing{}
-			allMaterialProcessing = k.GetAllMaterialProcessing(ctx)
-			found                 = false
+			simAccount         = simtypes.Account{}
+			materialProcessing = types.MaterialProcessing{}
+			msg                = &types.MsgUpdateMaterialProcessing{}
+			found              = false
 		)
+
+		var allMaterialProcessing []types.MaterialProcessing
+		err := k.MaterialProcessing.Walk(ctx, nil, func(key uint64, value types.MaterialProcessing) (stop bool, err error) {
+			allMaterialProcessing = append(allMaterialProcessing, value)
+			return false, nil
+		})
+		if err != nil {
+			panic(err)
+		}
+
 		for _, obj := range allMaterialProcessing {
-			simAccount, found = FindAccount(accs, obj.Creator)
+			acc, err := ak.AddressCodec().StringToBytes(obj.Creator)
+			if err != nil {
+				return simtypes.OperationMsg{}, nil, err
+			}
+
+			simAccount, found = simtypes.FindAccount(accs, sdk.AccAddress(acc))
 			if found {
 				materialProcessing = obj
 				break
 			}
 		}
 		if !found {
-			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "materialProcessing creator not found"), nil, nil
+			return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "materialProcessing creator not found"), nil, nil
 		}
 		msg.Creator = simAccount.Address.String()
 		msg.Id = materialProcessing.Id
@@ -73,10 +89,9 @@ func SimulateMsgUpdateMaterialProcessing(
 		txCtx := simulation.OperationInput{
 			R:               r,
 			App:             app,
-			TxGen:           simappparams.MakeTestEncodingConfig().TxConfig,
+			TxGen:           txGen,
 			Cdc:             nil,
 			Msg:             msg,
-			MsgType:         msg.Type(),
 			Context:         ctx,
 			SimAccount:      simAccount,
 			ModuleName:      types.ModuleName,
@@ -89,28 +104,43 @@ func SimulateMsgUpdateMaterialProcessing(
 }
 
 func SimulateMsgDeleteMaterialProcessing(
-	ak types.AccountKeeper,
+	ak types.AuthKeeper,
 	bk types.BankKeeper,
 	k keeper.Keeper,
+	txGen client.TxConfig,
 ) simtypes.Operation {
 	return func(r *rand.Rand, app *baseapp.BaseApp, ctx sdk.Context, accs []simtypes.Account, chainID string,
 	) (simtypes.OperationMsg, []simtypes.FutureOperation, error) {
 		var (
-			simAccount            = simtypes.Account{}
-			materialProcessing    = types.MaterialProcessing{}
-			msg                   = &types.MsgUpdateMaterialProcessing{}
-			allMaterialProcessing = k.GetAllMaterialProcessing(ctx)
-			found                 = false
+			simAccount         = simtypes.Account{}
+			materialProcessing = types.MaterialProcessing{}
+			msg                = &types.MsgDeleteMaterialProcessing{}
+			found              = false
 		)
+
+		var allMaterialProcessing []types.MaterialProcessing
+		err := k.MaterialProcessing.Walk(ctx, nil, func(key uint64, value types.MaterialProcessing) (stop bool, err error) {
+			allMaterialProcessing = append(allMaterialProcessing, value)
+			return false, nil
+		})
+		if err != nil {
+			panic(err)
+		}
+
 		for _, obj := range allMaterialProcessing {
-			simAccount, found = FindAccount(accs, obj.Creator)
+			acc, err := ak.AddressCodec().StringToBytes(obj.Creator)
+			if err != nil {
+				return simtypes.OperationMsg{}, nil, err
+			}
+
+			simAccount, found = simtypes.FindAccount(accs, sdk.AccAddress(acc))
 			if found {
 				materialProcessing = obj
 				break
 			}
 		}
 		if !found {
-			return simtypes.NoOpMsg(types.ModuleName, msg.Type(), "materialProcessing creator not found"), nil, nil
+			return simtypes.NoOpMsg(types.ModuleName, sdk.MsgTypeURL(msg), "materialProcessing creator not found"), nil, nil
 		}
 		msg.Creator = simAccount.Address.String()
 		msg.Id = materialProcessing.Id
@@ -118,10 +148,9 @@ func SimulateMsgDeleteMaterialProcessing(
 		txCtx := simulation.OperationInput{
 			R:               r,
 			App:             app,
-			TxGen:           simappparams.MakeTestEncodingConfig().TxConfig,
+			TxGen:           txGen,
 			Cdc:             nil,
 			Msg:             msg,
-			MsgType:         msg.Type(),
 			Context:         ctx,
 			SimAccount:      simAccount,
 			ModuleName:      types.ModuleName,

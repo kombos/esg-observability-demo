@@ -2,36 +2,30 @@ package keeper
 
 import (
 	"context"
+	"errors"
 
-	"esg-observability-demo/x/esgobservabilitydemo/types"
-	"github.com/cosmos/cosmos-sdk/store/prefix"
-	sdk "github.com/cosmos/cosmos-sdk/types"
+	"esgobservabilitydemo/x/esgobservabilitydemo/types"
+
+	"cosmossdk.io/collections"
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/cosmos/cosmos-sdk/types/query"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
 
-func (k Keeper) TransportationAll(goCtx context.Context, req *types.QueryAllTransportationRequest) (*types.QueryAllTransportationResponse, error) {
+func (q queryServer) ListTransportation(ctx context.Context, req *types.QueryAllTransportationRequest) (*types.QueryAllTransportationResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	var transportations []types.Transportation
-	ctx := sdk.UnwrapSDKContext(goCtx)
-
-	store := ctx.KVStore(k.storeKey)
-	transportationStore := prefix.NewStore(store, types.KeyPrefix(types.TransportationKey))
-
-	pageRes, err := query.Paginate(transportationStore, req.Pagination, func(key []byte, value []byte) error {
-		var transportation types.Transportation
-		if err := k.cdc.Unmarshal(value, &transportation); err != nil {
-			return err
-		}
-
-		transportations = append(transportations, transportation)
-		return nil
-	})
+	transportations, pageRes, err := query.CollectionPaginate(
+		ctx,
+		q.k.Transportation,
+		req.Pagination,
+		func(_ uint64, value types.Transportation) (types.Transportation, error) {
+			return value, nil
+		},
+	)
 
 	if err != nil {
 		return nil, status.Error(codes.Internal, err.Error())
@@ -40,15 +34,18 @@ func (k Keeper) TransportationAll(goCtx context.Context, req *types.QueryAllTran
 	return &types.QueryAllTransportationResponse{Transportation: transportations, Pagination: pageRes}, nil
 }
 
-func (k Keeper) Transportation(goCtx context.Context, req *types.QueryGetTransportationRequest) (*types.QueryGetTransportationResponse, error) {
+func (q queryServer) GetTransportation(ctx context.Context, req *types.QueryGetTransportationRequest) (*types.QueryGetTransportationResponse, error) {
 	if req == nil {
 		return nil, status.Error(codes.InvalidArgument, "invalid request")
 	}
 
-	ctx := sdk.UnwrapSDKContext(goCtx)
-	transportation, found := k.GetTransportation(ctx, req.Id)
-	if !found {
-		return nil, sdkerrors.ErrKeyNotFound
+	transportation, err := q.k.Transportation.Get(ctx, req.Id)
+	if err != nil {
+		if errors.Is(err, collections.ErrNotFound) {
+			return nil, sdkerrors.ErrKeyNotFound
+		}
+
+		return nil, status.Error(codes.Internal, "internal error")
 	}
 
 	return &types.QueryGetTransportationResponse{Transportation: transportation}, nil

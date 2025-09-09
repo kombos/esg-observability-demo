@@ -1,5 +1,7 @@
 package types
 
+import "cosmossdk.io/collections"
+
 const (
 	// ModuleName defines the module name
 	ModuleName = "esgobservabilitydemo"
@@ -7,33 +9,31 @@ const (
 	// StoreKey defines the primary module store key
 	StoreKey = ModuleName
 
-	// RouterKey defines the module's message routing key
-	RouterKey = ModuleName
-
-	// MemStoreKey defines the in-memory store key
-	MemStoreKey = "mem_esgobservabilitydemo"
+	// GovModuleName duplicates the gov module's name to avoid a dependency with x/gov.
+	// It should be synced with the gov module's name if it is ever changed.
+	// See: https://github.com/cosmos/cosmos-sdk/blob/v0.52.0-beta.2/x/gov/types/keys.go#L9
+	GovModuleName = "gov"
 )
 
-func KeyPrefix(p string) []byte {
-	return []byte(p)
-}
+// ParamsKey is the prefix to retrieve all Params
+var ParamsKey = collections.NewPrefix("p_esgobservabilitydemo")
 
-const (
-	RawMaterialExtractionKey      = "RawMaterialExtraction/value/"
-	RawMaterialExtractionCountKey = "RawMaterialExtraction/count/"
+var (
+	RawMaterialExtractionKey      = collections.NewPrefix("rawmaterialextraction/value/")
+	RawMaterialExtractionCountKey = collections.NewPrefix("rawmaterialextraction/count/")
 )
 
-const (
-	ManufacturingKey      = "Manufacturing/value/"
-	ManufacturingCountKey = "Manufacturing/count/"
+var (
+	ManufacturingKey      = collections.NewPrefix("manufacturing/value/")
+	ManufacturingCountKey = collections.NewPrefix("manufacturing/count/")
 )
 
-const (
-	TransportationKey      = "Transportation/value/"
-	TransportationCountKey = "Transportation/count/"
+var (
+	TransportationKey      = collections.NewPrefix("transportation/value/")
+	TransportationCountKey = collections.NewPrefix("transportation/count/")
 )
 
-const (
-	MaterialProcessingKey      = "MaterialProcessing/value/"
-	MaterialProcessingCountKey = "MaterialProcessing/count/"
+var (
+	MaterialProcessingKey      = collections.NewPrefix("materialprocessing/value/")
+	MaterialProcessingCountKey = collections.NewPrefix("materialprocessing/count/")
 )

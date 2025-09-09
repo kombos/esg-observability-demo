@@ -1,0 +1,13 @@
+syntax = "proto3";
+package esgobservabilitydemo.esgobservabilitydemo.v1;
+
+import "amino/amino.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "esgobservabilitydemo/x/esgobservabilitydemo/types";
+
+// Params defines the parameters for the module.
+message Params {
+  option (amino.name) = "esgobservabilitydemo/x/esgobservabilitydemo/Params";
+  option (gogoproto.equal) = true;
+}

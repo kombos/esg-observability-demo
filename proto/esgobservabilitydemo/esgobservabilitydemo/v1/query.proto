@@ -1,0 +1,159 @@
+syntax = "proto3";
+
+package esgobservabilitydemo.esgobservabilitydemo.v1;
+
+import "amino/amino.proto";
+import "cosmos/base/query/v1beta1/pagination.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/manufacturing.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/material_processing.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/params.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/raw_material_extraction.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/transportation.proto";
+import "gogoproto/gogo.proto";
+import "google/api/annotations.proto";
+
+option go_package = "esgobservabilitydemo/x/esgobservabilitydemo/types";
+
+// Query defines the gRPC querier service.
+service Query {
+  // Parameters queries the parameters of the module.
+  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/params";
+  }
+
+  // ListRawMaterialExtraction Queries a list of RawMaterialExtraction items.
+  rpc GetRawMaterialExtraction(QueryGetRawMaterialExtractionRequest) returns (QueryGetRawMaterialExtractionResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/raw_material_extraction/{id}";
+  }
+
+  // ListRawMaterialExtraction defines the ListRawMaterialExtraction RPC.
+  rpc ListRawMaterialExtraction(QueryAllRawMaterialExtractionRequest) returns (QueryAllRawMaterialExtractionResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/raw_material_extraction";
+  }
+
+  // ListManufacturing Queries a list of Manufacturing items.
+  rpc GetManufacturing(QueryGetManufacturingRequest) returns (QueryGetManufacturingResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/manufacturing/{id}";
+  }
+
+  // ListManufacturing defines the ListManufacturing RPC.
+  rpc ListManufacturing(QueryAllManufacturingRequest) returns (QueryAllManufacturingResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/manufacturing";
+  }
+
+  // ListTransportation Queries a list of Transportation items.
+  rpc GetTransportation(QueryGetTransportationRequest) returns (QueryGetTransportationResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/transportation/{id}";
+  }
+
+  // ListTransportation defines the ListTransportation RPC.
+  rpc ListTransportation(QueryAllTransportationRequest) returns (QueryAllTransportationResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/transportation";
+  }
+
+  // ListMaterialProcessing Queries a list of MaterialProcessing items.
+  rpc GetMaterialProcessing(QueryGetMaterialProcessingRequest) returns (QueryGetMaterialProcessingResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/material_processing/{id}";
+  }
+
+  // ListMaterialProcessing defines the ListMaterialProcessing RPC.
+  rpc ListMaterialProcessing(QueryAllMaterialProcessingRequest) returns (QueryAllMaterialProcessingResponse) {
+    option (google.api.http).get = "/esgobservabilitydemo/esgobservabilitydemo/v1/material_processing";
+  }
+}
+
+// QueryParamsRequest is request type for the Query/Params RPC method.
+message QueryParamsRequest {}
+
+// QueryParamsResponse is response type for the Query/Params RPC method.
+message QueryParamsResponse {
+  // params holds all the parameters of this module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// QueryGetRawMaterialExtractionRequest defines the QueryGetRawMaterialExtractionRequest message.
+message QueryGetRawMaterialExtractionRequest {
+  uint64 id = 1;
+}
+
+// QueryGetRawMaterialExtractionResponse defines the QueryGetRawMaterialExtractionResponse message.
+message QueryGetRawMaterialExtractionResponse {
+  RawMaterialExtraction raw_material_extraction = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllRawMaterialExtractionRequest defines the QueryAllRawMaterialExtractionRequest message.
+message QueryAllRawMaterialExtractionRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllRawMaterialExtractionResponse defines the QueryAllRawMaterialExtractionResponse message.
+message QueryAllRawMaterialExtractionResponse {
+  repeated RawMaterialExtraction raw_material_extraction = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGetManufacturingRequest defines the QueryGetManufacturingRequest message.
+message QueryGetManufacturingRequest {
+  uint64 id = 1;
+}
+
+// QueryGetManufacturingResponse defines the QueryGetManufacturingResponse message.
+message QueryGetManufacturingResponse {
+  Manufacturing manufacturing = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllManufacturingRequest defines the QueryAllManufacturingRequest message.
+message QueryAllManufacturingRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllManufacturingResponse defines the QueryAllManufacturingResponse message.
+message QueryAllManufacturingResponse {
+  repeated Manufacturing manufacturing = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGetTransportationRequest defines the QueryGetTransportationRequest message.
+message QueryGetTransportationRequest {
+  uint64 id = 1;
+}
+
+// QueryGetTransportationResponse defines the QueryGetTransportationResponse message.
+message QueryGetTransportationResponse {
+  Transportation transportation = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllTransportationRequest defines the QueryAllTransportationRequest message.
+message QueryAllTransportationRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllTransportationResponse defines the QueryAllTransportationResponse message.
+message QueryAllTransportationResponse {
+  repeated Transportation transportation = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}
+
+// QueryGetMaterialProcessingRequest defines the QueryGetMaterialProcessingRequest message.
+message QueryGetMaterialProcessingRequest {
+  uint64 id = 1;
+}
+
+// QueryGetMaterialProcessingResponse defines the QueryGetMaterialProcessingResponse message.
+message QueryGetMaterialProcessingResponse {
+  MaterialProcessing material_processing = 1 [(gogoproto.nullable) = false];
+}
+
+// QueryAllMaterialProcessingRequest defines the QueryAllMaterialProcessingRequest message.
+message QueryAllMaterialProcessingRequest {
+  cosmos.base.query.v1beta1.PageRequest pagination = 1;
+}
+
+// QueryAllMaterialProcessingResponse defines the QueryAllMaterialProcessingResponse message.
+message QueryAllMaterialProcessingResponse {
+  repeated MaterialProcessing material_processing = 1 [(gogoproto.nullable) = false];
+  cosmos.base.query.v1beta1.PageResponse pagination = 2;
+}

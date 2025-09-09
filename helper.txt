@@ -6,6 +6,17 @@ sudo curl https://get.ignite.com/cli@v28.4.0! | bash
 
 
 
+Scaffolding:
+============
+
+ignite scaffold chain esgobservabilitydemo
+ignite scaffold list rawMaterialExtraction resourceType:string waterUse:string emissions:string --module esgobservabilitydemo
+ignite scaffold list manufacturing componentType:string waterUse:string emissions:string --module esgobservabilitydemo
+ignite scaffold list transportation transportationType:string fuelUse:string emissions:string --module esgobservabilitydemo
+ignite scaffold list materialProcessing materialType:string waterUse:string emissions:string --module esgobservabilitydemo
+
+
+
 
 
 ignite app install -g github.com/ignite/apps/spaceship

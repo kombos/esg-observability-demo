@@ -1,28 +1,17 @@
 package types
 
-import (
-	"fmt"
-)
-
-// DefaultIndex is the default global index
-const DefaultIndex uint64 = 1
+import "fmt"
 
 // DefaultGenesis returns the default genesis state
 func DefaultGenesis() *GenesisState {
 	return &GenesisState{
-		RawMaterialExtractionList: []RawMaterialExtraction{},
-		ManufacturingList:         []Manufacturing{},
-		TransportationList:        []Transportation{},
-		MaterialProcessingList:    []MaterialProcessing{},
-		// this line is used by starport scaffolding # genesis/types/default
-		Params: DefaultParams(),
-	}
+		Params:                    DefaultParams(),
+		RawMaterialExtractionList: []RawMaterialExtraction{}, ManufacturingList: []Manufacturing{}, TransportationList: []Transportation{}, MaterialProcessingList: []MaterialProcessing{}}
 }
 
 // Validate performs basic genesis state validation returning an error upon any
 // failure.
 func (gs GenesisState) Validate() error {
-	// Check for duplicated ID in rawMaterialExtraction
 	rawMaterialExtractionIdMap := make(map[uint64]bool)
 	rawMaterialExtractionCount := gs.GetRawMaterialExtractionCount()
 	for _, elem := range gs.RawMaterialExtractionList {
@@ -34,7 +23,6 @@ func (gs GenesisState) Validate() error {
 		}
 		rawMaterialExtractionIdMap[elem.Id] = true
 	}
-	// Check for duplicated ID in manufacturing
 	manufacturingIdMap := make(map[uint64]bool)
 	manufacturingCount := gs.GetManufacturingCount()
 	for _, elem := range gs.ManufacturingList {
@@ -46,7 +34,6 @@ func (gs GenesisState) Validate() error {
 		}
 		manufacturingIdMap[elem.Id] = true
 	}
-	// Check for duplicated ID in transportation
 	transportationIdMap := make(map[uint64]bool)
 	transportationCount := gs.GetTransportationCount()
 	for _, elem := range gs.TransportationList {
@@ -58,7 +45,6 @@ func (gs GenesisState) Validate() error {
 		}
 		transportationIdMap[elem.Id] = true
 	}
-	// Check for duplicated ID in materialProcessing
 	materialProcessingIdMap := make(map[uint64]bool)
 	materialProcessingCount := gs.GetMaterialProcessingCount()
 	for _, elem := range gs.MaterialProcessingList {
@@ -70,7 +56,6 @@ func (gs GenesisState) Validate() error {
 		}
 		materialProcessingIdMap[elem.Id] = true
 	}
-	// this line is used by starport scaffolding # genesis/types/validate
 
 	return gs.Params.Validate()
 }

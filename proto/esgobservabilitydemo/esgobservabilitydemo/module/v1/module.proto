@@ -1,0 +1,15 @@
+syntax = "proto3";
+package esgobservabilitydemo.esgobservabilitydemo.module.v1;
+
+import "cosmos/app/v1alpha1/module.proto";
+
+option go_package = "esgobservabilitydemo/x/esgobservabilitydemo/types";
+
+// Module is the config object for the module.
+message Module {
+  option (cosmos.app.v1alpha1.module) = {go_import: "esgobservabilitydemo/x/esgobservabilitydemo"};
+
+  // authority defines the custom module authority.
+  // If not set, defaults to the governance module.
+  string authority = 1;
+}

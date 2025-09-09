@@ -1,0 +1,225 @@
+syntax = "proto3";
+
+package esgobservabilitydemo.esgobservabilitydemo.v1;
+
+import "amino/amino.proto";
+import "cosmos/msg/v1/msg.proto";
+import "cosmos_proto/cosmos.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/params.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "esgobservabilitydemo/x/esgobservabilitydemo/types";
+
+// Msg defines the Msg service.
+service Msg {
+  option (cosmos.msg.v1.service) = true;
+
+  // UpdateParams defines a (governance) operation for updating the module
+  // parameters. The authority defaults to the x/gov module account.
+  rpc UpdateParams(MsgUpdateParams) returns (MsgUpdateParamsResponse);
+
+  // CreateRawMaterialExtraction defines the CreateRawMaterialExtraction RPC.
+  rpc CreateRawMaterialExtraction(MsgCreateRawMaterialExtraction) returns (MsgCreateRawMaterialExtractionResponse);
+
+  // UpdateRawMaterialExtraction defines the UpdateRawMaterialExtraction RPC.
+  rpc UpdateRawMaterialExtraction(MsgUpdateRawMaterialExtraction) returns (MsgUpdateRawMaterialExtractionResponse);
+
+  // DeleteRawMaterialExtraction defines the DeleteRawMaterialExtraction RPC.
+  rpc DeleteRawMaterialExtraction(MsgDeleteRawMaterialExtraction) returns (MsgDeleteRawMaterialExtractionResponse);
+
+  // CreateManufacturing defines the CreateManufacturing RPC.
+  rpc CreateManufacturing(MsgCreateManufacturing) returns (MsgCreateManufacturingResponse);
+
+  // UpdateManufacturing defines the UpdateManufacturing RPC.
+  rpc UpdateManufacturing(MsgUpdateManufacturing) returns (MsgUpdateManufacturingResponse);
+
+  // DeleteManufacturing defines the DeleteManufacturing RPC.
+  rpc DeleteManufacturing(MsgDeleteManufacturing) returns (MsgDeleteManufacturingResponse);
+
+  // CreateTransportation defines the CreateTransportation RPC.
+  rpc CreateTransportation(MsgCreateTransportation) returns (MsgCreateTransportationResponse);
+
+  // UpdateTransportation defines the UpdateTransportation RPC.
+  rpc UpdateTransportation(MsgUpdateTransportation) returns (MsgUpdateTransportationResponse);
+
+  // DeleteTransportation defines the DeleteTransportation RPC.
+  rpc DeleteTransportation(MsgDeleteTransportation) returns (MsgDeleteTransportationResponse);
+
+  // CreateMaterialProcessing defines the CreateMaterialProcessing RPC.
+  rpc CreateMaterialProcessing(MsgCreateMaterialProcessing) returns (MsgCreateMaterialProcessingResponse);
+
+  // UpdateMaterialProcessing defines the UpdateMaterialProcessing RPC.
+  rpc UpdateMaterialProcessing(MsgUpdateMaterialProcessing) returns (MsgUpdateMaterialProcessingResponse);
+
+  // DeleteMaterialProcessing defines the DeleteMaterialProcessing RPC.
+  rpc DeleteMaterialProcessing(MsgDeleteMaterialProcessing) returns (MsgDeleteMaterialProcessingResponse);
+}
+
+// MsgUpdateParams is the Msg/UpdateParams request type.
+message MsgUpdateParams {
+  option (cosmos.msg.v1.signer) = "authority";
+  option (amino.name) = "esgobservabilitydemo/x/esgobservabilitydemo/MsgUpdateParams";
+
+  // authority is the address that controls the module (defaults to x/gov unless overwritten).
+  string authority = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+
+  // params defines the module parameters to update.
+
+  // NOTE: All parameters must be supplied.
+  Params params = 2 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+}
+
+// MsgUpdateParamsResponse defines the response structure for executing a
+// MsgUpdateParams message.
+message MsgUpdateParamsResponse {}
+
+// MsgCreateRawMaterialExtraction defines the MsgCreateRawMaterialExtraction message.
+message MsgCreateRawMaterialExtraction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string resource_type = 2;
+  string water_use = 3;
+  string emissions = 4;
+}
+
+// MsgCreateRawMaterialExtractionResponse defines the MsgCreateRawMaterialExtractionResponse message.
+message MsgCreateRawMaterialExtractionResponse {
+  uint64 id = 1;
+}
+
+// MsgUpdateRawMaterialExtraction defines the MsgUpdateRawMaterialExtraction message.
+message MsgUpdateRawMaterialExtraction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 id = 2;
+  string resource_type = 3;
+  string water_use = 4;
+  string emissions = 5;
+}
+
+// MsgUpdateRawMaterialExtractionResponse defines the MsgUpdateRawMaterialExtractionResponse message.
+message MsgUpdateRawMaterialExtractionResponse {}
+
+// MsgDeleteRawMaterialExtraction defines the MsgDeleteRawMaterialExtraction message.
+message MsgDeleteRawMaterialExtraction {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 id = 2;
+}
+
+// MsgDeleteRawMaterialExtractionResponse defines the MsgDeleteRawMaterialExtractionResponse message.
+message MsgDeleteRawMaterialExtractionResponse {}
+
+// MsgCreateManufacturing defines the MsgCreateManufacturing message.
+message MsgCreateManufacturing {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string component_type = 2;
+  string water_use = 3;
+  string emissions = 4;
+}
+
+// MsgCreateManufacturingResponse defines the MsgCreateManufacturingResponse message.
+message MsgCreateManufacturingResponse {
+  uint64 id = 1;
+}
+
+// MsgUpdateManufacturing defines the MsgUpdateManufacturing message.
+message MsgUpdateManufacturing {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 id = 2;
+  string component_type = 3;
+  string water_use = 4;
+  string emissions = 5;
+}
+
+// MsgUpdateManufacturingResponse defines the MsgUpdateManufacturingResponse message.
+message MsgUpdateManufacturingResponse {}
+
+// MsgDeleteManufacturing defines the MsgDeleteManufacturing message.
+message MsgDeleteManufacturing {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 id = 2;
+}
+
+// MsgDeleteManufacturingResponse defines the MsgDeleteManufacturingResponse message.
+message MsgDeleteManufacturingResponse {}
+
+// MsgCreateTransportation defines the MsgCreateTransportation message.
+message MsgCreateTransportation {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string transportation_type = 2;
+  string fuel_use = 3;
+  string emissions = 4;
+}
+
+// MsgCreateTransportationResponse defines the MsgCreateTransportationResponse message.
+message MsgCreateTransportationResponse {
+  uint64 id = 1;
+}
+
+// MsgUpdateTransportation defines the MsgUpdateTransportation message.
+message MsgUpdateTransportation {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 id = 2;
+  string transportation_type = 3;
+  string fuel_use = 4;
+  string emissions = 5;
+}
+
+// MsgUpdateTransportationResponse defines the MsgUpdateTransportationResponse message.
+message MsgUpdateTransportationResponse {}
+
+// MsgDeleteTransportation defines the MsgDeleteTransportation message.
+message MsgDeleteTransportation {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 id = 2;
+}
+
+// MsgDeleteTransportationResponse defines the MsgDeleteTransportationResponse message.
+message MsgDeleteTransportationResponse {}
+
+// MsgCreateMaterialProcessing defines the MsgCreateMaterialProcessing message.
+message MsgCreateMaterialProcessing {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  string material_type = 2;
+  string water_use = 3;
+  string emissions = 4;
+}
+
+// MsgCreateMaterialProcessingResponse defines the MsgCreateMaterialProcessingResponse message.
+message MsgCreateMaterialProcessingResponse {
+  uint64 id = 1;
+}
+
+// MsgUpdateMaterialProcessing defines the MsgUpdateMaterialProcessing message.
+message MsgUpdateMaterialProcessing {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 id = 2;
+  string material_type = 3;
+  string water_use = 4;
+  string emissions = 5;
+}
+
+// MsgUpdateMaterialProcessingResponse defines the MsgUpdateMaterialProcessingResponse message.
+message MsgUpdateMaterialProcessingResponse {}
+
+// MsgDeleteMaterialProcessing defines the MsgDeleteMaterialProcessing message.
+message MsgDeleteMaterialProcessing {
+  option (cosmos.msg.v1.signer) = "creator";
+  string creator = 1 [(cosmos_proto.scalar) = "cosmos.AddressString"];
+  uint64 id = 2;
+}
+
+// MsgDeleteMaterialProcessingResponse defines the MsgDeleteMaterialProcessingResponse message.
+message MsgDeleteMaterialProcessingResponse {}

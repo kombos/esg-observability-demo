@@ -3,19 +3,20 @@ package keeper_test
 import (
 	"testing"
 
-	testkeeper "esg-observability-demo/testutil/keeper"
-	"esg-observability-demo/x/esgobservabilitydemo/types"
-	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/stretchr/testify/require"
+
+	"esgobservabilitydemo/x/esgobservabilitydemo/keeper"
+	"esgobservabilitydemo/x/esgobservabilitydemo/types"
 )
 
 func TestParamsQuery(t *testing.T) {
-	keeper, ctx := testkeeper.EsgobservabilitydemoKeeper(t)
-	wctx := sdk.WrapSDKContext(ctx)
-	params := types.DefaultParams()
-	keeper.SetParams(ctx, params)
+	f := initFixture(t)
 
-	response, err := keeper.Params(wctx, &types.QueryParamsRequest{})
+	qs := keeper.NewQueryServerImpl(f.keeper)
+	params := types.DefaultParams()
+	require.NoError(t, f.keeper.Params.Set(f.ctx, params))
+
+	response, err := qs.Params(f.ctx, &types.QueryParamsRequest{})
 	require.NoError(t, err)
 	require.Equal(t, &types.QueryParamsResponse{Params: params}, response)
 }

@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+package esgobservabilitydemo.esgobservabilitydemo.v1;
+
+import "amino/amino.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/manufacturing.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/material_processing.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/params.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/raw_material_extraction.proto";
+import "esgobservabilitydemo/esgobservabilitydemo/v1/transportation.proto";
+import "gogoproto/gogo.proto";
+
+option go_package = "esgobservabilitydemo/x/esgobservabilitydemo/types";
+
+// GenesisState defines the esgobservabilitydemo module's genesis state.
+message GenesisState {
+  // params defines all the parameters of the module.
+  Params params = 1 [
+    (gogoproto.nullable) = false,
+    (amino.dont_omitempty) = true
+  ];
+  repeated RawMaterialExtraction raw_material_extraction_list = 2 [(gogoproto.nullable) = false];
+  uint64 raw_material_extraction_count = 3;
+  repeated Manufacturing manufacturing_list = 4 [(gogoproto.nullable) = false];
+  uint64 manufacturing_count = 5;
+  repeated Transportation transportation_list = 6 [(gogoproto.nullable) = false];
+  uint64 transportation_count = 7;
+  repeated MaterialProcessing material_processing_list = 8 [(gogoproto.nullable) = false];
+  uint64 material_processing_count = 9;
+}

@@ -1,5 +1,7 @@
 version: 1
-accounts:
+validation: sovereign
+default_denom: stake
+accounts: 
 - name: alice
   coins:
   - 20000token
@@ -28,19 +30,18 @@ accounts:
   - 10000token
   - 250000000stake
   mnemonic: vessel dial fun hour easily logic index round sadness assist process grit
-  
+client:
+  openapi:
+    path: docs/static/openapi.json
 faucet:
   name: bob
   coins:
   - 5token
   - 100000stake
-client:
-  typescript:
-    path: ts-client
-  hooks:
-    path: react/src/hooks
-  openapi:
-    path: docs/static/openapi.yml
 validators:
 - name: alice
+  bonded: 100000000stake
+- name: validator1
+  bonded: 200000000stake
+- name: validator2
   bonded: 100000000stake

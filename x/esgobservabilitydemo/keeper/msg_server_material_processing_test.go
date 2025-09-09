@@ -6,21 +6,36 @@ import (
 	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
 	"github.com/stretchr/testify/require"
 
-	"esg-observability-demo/x/esgobservabilitydemo/types"
+	"esgobservabilitydemo/x/esgobservabilitydemo/keeper"
+	"esgobservabilitydemo/x/esgobservabilitydemo/types"
 )
 
 func TestMaterialProcessingMsgServerCreate(t *testing.T) {
-	srv, ctx := setupMsgServer(t)
-	creator := "A"
+	f := initFixture(t)
+	srv := keeper.NewMsgServerImpl(f.keeper)
+
+	creator, err := f.addressCodec.BytesToString([]byte("signerAddr__________________"))
+	require.NoError(t, err)
+
 	for i := 0; i < 5; i++ {
-		resp, err := srv.CreateMaterialProcessing(ctx, &types.MsgCreateMaterialProcessing{Creator: creator})
+		resp, err := srv.CreateMaterialProcessing(f.ctx, &types.MsgCreateMaterialProcessing{Creator: creator})
 		require.NoError(t, err)
 		require.Equal(t, i, int(resp.Id))
 	}
 }
 
 func TestMaterialProcessingMsgServerUpdate(t *testing.T) {
-	creator := "A"
+	f := initFixture(t)
+	srv := keeper.NewMsgServerImpl(f.keeper)
+
+	creator, err := f.addressCodec.BytesToString([]byte("signerAddr__________________"))
+	require.NoError(t, err)
+
+	unauthorizedAddr, err := f.addressCodec.BytesToString([]byte("unauthorizedAddr___________"))
+	require.NoError(t, err)
+
+	_, err = srv.CreateMaterialProcessing(f.ctx, &types.MsgCreateMaterialProcessing{Creator: creator})
+	require.NoError(t, err)
 
 	tests := []struct {
 		desc    string
@@ -28,27 +43,28 @@ func TestMaterialProcessingMsgServerUpdate(t *testing.T) {
 		err     error
 	}{
 		{
-			desc:    "Completed",
-			request: &types.MsgUpdateMaterialProcessing{Creator: creator},
+			desc:    "invalid address",
+			request: &types.MsgUpdateMaterialProcessing{Creator: "invalid"},
+			err:     sdkerrors.ErrInvalidAddress,
 		},
 		{
-			desc:    "Unauthorized",
-			request: &types.MsgUpdateMaterialProcessing{Creator: "B"},
+			desc:    "unauthorized",
+			request: &types.MsgUpdateMaterialProcessing{Creator: unauthorizedAddr},
 			err:     sdkerrors.ErrUnauthorized,
 		},
 		{
-			desc:    "Unauthorized",
+			desc:    "key not found",
 			request: &types.MsgUpdateMaterialProcessing{Creator: creator, Id: 10},
 			err:     sdkerrors.ErrKeyNotFound,
+		},
+		{
+			desc:    "completed",
+			request: &types.MsgUpdateMaterialProcessing{Creator: creator},
 		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
-			srv, ctx := setupMsgServer(t)
-			_, err := srv.CreateMaterialProcessing(ctx, &types.MsgCreateMaterialProcessing{Creator: creator})
-			require.NoError(t, err)
-
-			_, err = srv.UpdateMaterialProcessing(ctx, tc.request)
+			_, err = srv.UpdateMaterialProcessing(f.ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {
@@ -59,7 +75,17 @@ func TestMaterialProcessingMsgServerUpdate(t *testing.T) {
 }
 
 func TestMaterialProcessingMsgServerDelete(t *testing.T) {
-	creator := "A"
+	f := initFixture(t)
+	srv := keeper.NewMsgServerImpl(f.keeper)
+
+	creator, err := f.addressCodec.BytesToString([]byte("signerAddr__________________"))
+	require.NoError(t, err)
+
+	unauthorizedAddr, err := f.addressCodec.BytesToString([]byte("unauthorizedAddr___________"))
+	require.NoError(t, err)
+
+	_, err = srv.CreateMaterialProcessing(f.ctx, &types.MsgCreateMaterialProcessing{Creator: creator})
+	require.NoError(t, err)
 
 	tests := []struct {
 		desc    string
@@ -67,27 +93,28 @@ func TestMaterialProcessingMsgServerDelete(t *testing.T) {
 		err     error
 	}{
 		{
-			desc:    "Completed",
-			request: &types.MsgDeleteMaterialProcessing{Creator: creator},
+			desc:    "invalid address",
+			request: &types.MsgDeleteMaterialProcessing{Creator: "invalid"},
+			err:     sdkerrors.ErrInvalidAddress,
 		},
 		{
-			desc:    "Unauthorized",
-			request: &types.MsgDeleteMaterialProcessing{Creator: "B"},
+			desc:    "unauthorized",
+			request: &types.MsgDeleteMaterialProcessing{Creator: unauthorizedAddr},
 			err:     sdkerrors.ErrUnauthorized,
 		},
 		{
-			desc:    "KeyNotFound",
+			desc:    "key not found",
 			request: &types.MsgDeleteMaterialProcessing{Creator: creator, Id: 10},
 			err:     sdkerrors.ErrKeyNotFound,
+		},
+		{
+			desc:    "completed",
+			request: &types.MsgDeleteMaterialProcessing{Creator: creator},
 		},
 	}
 	for _, tc := range tests {
 		t.Run(tc.desc, func(t *testing.T) {
-			srv, ctx := setupMsgServer(t)
-
-			_, err := srv.CreateMaterialProcessing(ctx, &types.MsgCreateMaterialProcessing{Creator: creator})
-			require.NoError(t, err)
-			_, err = srv.DeleteMaterialProcessing(ctx, tc.request)
+			_, err = srv.DeleteMaterialProcessing(f.ctx, tc.request)
 			if tc.err != nil {
 				require.ErrorIs(t, err, tc.err)
 			} else {

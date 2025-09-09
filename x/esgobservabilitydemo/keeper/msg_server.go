@@ -1,7 +1,7 @@
 package keeper
 
 import (
-	"esg-observability-demo/x/esgobservabilitydemo/types"
+	"esgobservabilitydemo/x/esgobservabilitydemo/types"
 )
 
 type msgServer struct {
