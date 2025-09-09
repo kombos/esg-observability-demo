@@ -22,10 +22,52 @@ ts-client Generation:
 ignite generate ts-client --clear-cache
 
 
+Setup Remote EC2 Instance
+==========================
+
+1. create aws account, get free tier if possible
+2. spin up an ec2 instance t3.micro amazon linux (username = ec2-user)
+3. add a public key for access whose pvt key is most probably at ~/.ssh/id_rsa
+4. add .ssh config file using nano ~/.ssh/config in your local, and add : 
+# EC2
+Host my-ec2
+  HostName 13.233.107.70
+  User ec2-user
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa
+
+5. now when you do "ssh my-ec2", it should connect to the remote server
+6. similarly for GUI access, configure cyberduck, or remote explorer of cursor (ec2-user@13.233.107.70)
+
+
+
 Remote Deployment using Ignite App called Spaceship
 =======================================================
 
 ignite app install -g github.com/ignite/apps/spaceship
 ignite app update github.com/ignite/apps/spaceship
 ignite app list
+
+Deploy Chain:
+----------------
 ignite spaceship deploy ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa
+ignite spaceship status ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa
+ignite spaceship log ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa
+ignite spaceship log ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa --real-time
+ignite spaceship restart ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa
+ignite spaceship stop ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa
+
+Deploy Faucet:
+----------------
+ignite spaceship deploy ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa --faucet
+ignite spaceship deploy ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa --faucet --faucet-port 8077
+check faucet logs:
+ignite spaceship deploy ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa --app faucet
+
+
+
+
+curl http://127.0.0.1:26657/status | jq .
+curl http://13.233.107.70:26657/status
+
