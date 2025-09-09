@@ -27,4 +27,5 @@ Remote Deployment using Ignite App called Spaceship
 
 ignite app install -g github.com/ignite/apps/spaceship
 ignite app update github.com/ignite/apps/spaceship
+ignite app list
 ignite spaceship deploy ec2-user@13.233.107.70 --key $HOME/.ssh/id_rsa
